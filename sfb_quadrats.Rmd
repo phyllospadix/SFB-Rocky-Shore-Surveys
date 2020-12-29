@@ -82,8 +82,12 @@ rqs$zone <- ordered(rqs$zone, levels = c("Low", "Mid", "High"))
 rqs.loc$bay_perim_order = as.factor(rqs.loc$bay_perim_order)
 select(rqs.loc, -notes)
 
+# merges rqs and rqs.loc by site codes
+
 rqs2 <- dplyr::full_join(rqs, rqs.loc, by = "site_code")
 rqs2
+
+# creates column with RTC vs. all other sites for 'spotlighting" in graphs, reorders some columns
 
 rqs3 <- rqs2 %>% 
   mutate(RTC_sites = case_when(
@@ -98,6 +102,36 @@ rqs3 <- rqs2 %>%
 rqs3 <- mutate(rqs3, RTC_sites = as.factor(rqs3$RTC_sites))
 rqs3$RTC_sites <- ordered(rqs3$RTC_sites, levels = c("RTC", "other")) 
 rqs3 
+
+# Creates site x zone summary data sets and merges with site type 
+
+## Mid zone
+
+rqs4 <- rqs3 %>%
+    filter(zone == "Mid") %>%
+    drop_na(fucus_pc, oyster_n) %>%
+    group_by(site_code) %>%                                                         # Specify group indicator
+    summarise(fucus_pc_avg = mean(fucus_pc), oyster_n_avg = mean(oyster_n))         # Specify column, function, and new name
+rqs4
+
+rqs5 <- full_join(rqs4, rqs.loc, by = "site_code")
+rqs5 <- rqs5 %>%
+  select(site_code, fucus_pc_avg, oyster_n_avg, site_type)
+rqs5
+
+##Low zone
+
+rqs6 <- rqs3 %>%
+    filter(zone == "Low") %>%
+    drop_na(fucus_pc, oyster_n) %>%
+    group_by(site_code) %>%                                                         # Specify group indicator
+    summarise(fucus_pc_avg = mean(fucus_pc), oyster_n_avg = mean(oyster_n))         # Specify column, function, and new name
+rqs6
+rqs7 <- full_join(rqs6, rqs.loc, by = "site_code")
+rqs7 <- rqs7 %>%
+  select(site_code, fucus_pc_avg, oyster_n_avg, site_type)
+rqs7
+
 
 ```
 
@@ -168,8 +202,49 @@ fucus_p3 <- rqs3 %>%
   
 fucus_p3 
 ```
+```{r fucus mid sitetype, fig.cap = " Mid zone rockweed cover by site type (cobble, bench, riprap)"}
 
+#Mid zone Fucus cover x sitetype
+fucus_p4 <- rqs5 %>% 
+  filter(site_type != "blocks") %>%
+    filter(site_type != "seawall") %>%
+ # filter(site_code != "RTCS")%>%
+  #  filter(site_code != "PBS")%>%
+  ggplot (aes(x = site_type, y = fucus_pc_avg, fill= site_type)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch=21, position = position_jitterdodge(jitter.height = 0.1, jitter.width = 0.1, seed = 7))+
+ # scale_fill_manual(values=c("darkolivegreen4", "light grey")) +
+  theme_few()+
+  #scale_fill_few(palette = "Light")+
+  theme(legend.position = "none") +
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust = 1))+
+  #scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
+  #      labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach #Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))+
+  labs(x = "site type",  y = expression(paste(italic(" Fucus distichus"), " cover (%)")))
+  
+fucus_p4 
+```
+```{r fucus low sitetype, fig.cap = " Low zone rockweed cover by site type (cobble, bench, riprap)"}
 
+#LowMid zone Fucus cover x sitetype
+fucus_p5 <- rqs7 %>% 
+  filter(site_type != "blocks") %>%
+    filter(site_type != "seawall") %>%
+  drop_na(fucus_pc_avg) %>% 
+  ggplot (aes(x = site_type, y = fucus_pc_avg, fill= site_type)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch=21, position = position_jitterdodge(jitter.height = 0.1, jitter.width = 0.5, seed = 7))+
+ # scale_fill_manual(values=c("darkolivegreen4", "light grey")) +
+  theme_few()+
+  #scale_fill_few(palette = "Light")+
+  theme(legend.position = "none") +
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust = 1))+
+  #scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
+  #      labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach #Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))+
+  labs(x = "site type",  y = expression(paste(italic(" Fucus distichus"), " cover (%)")))
+  
+fucus_p5 
+```
 ## Native oyster, *Ostrea lurida*
 
 ```{r ostrea x zone, fig.cap = " Cover of *Ostrea lurida* at survey sites in the mid and low intertidal zones. Paradise Beach Park and Point Molate had sandy/muddy habitat in the low zone and thus were not surveyed. Width of the box plot appears wider at these sites than the others"}
@@ -209,8 +284,7 @@ oysters_p2 <- rqs3 %>%
   labs(x = NULL,  y = expression(paste(italic("Ostrea lurida "), "abundance ", " (no. ",  m^-2,")")))
 
 oysters_p2 
- 
-#fucus_p1/oyster_p1 #uses patchwork package to arrange plots - very cool
+
 ```
 
 ```{r ostrea low, fig.cap = " Abundancer of *Ostrea lurida* in low intertidal zone at survey sites. Coral fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus.Paradise Beach Park and Point Molate had sandy/muddy habitat in the low zone and thus were not surveyed."}
@@ -234,6 +308,55 @@ oysters_p3 <- rqs3 %>%
 oysters_p3
 ```
 
+```{r ostrea mid sitetype, fig.cap = " Mid zone oyster abundance by site type (cobble, bench, riprap)"}
+
+#Mid zone Fucus cover x sitetype
+oyster_p4 <- rqs5 %>% 
+  filter(site_type != "blocks") %>%
+    filter(site_type != "seawall") %>%
+  drop_na(oyster_n_avg) %>% 
+ # filter(site_code != "RTCS")%>%
+  #  filter(site_code != "PBS")%>%
+  ggplot (aes(x = site_type, y = oyster_n_avg, fill= site_type)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch=21, position = position_jitterdodge(jitter.height = 0.5, jitter.width = 0.5, seed = 7))+
+ # scale_fill_manual(values=c("darkolivegreen4", "light grey")) +
+  theme_few()+
+  #scale_fill_few(palette = "Light")+
+  theme(legend.position = "none") +
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust = 1))+
+  #scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
+  #      labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach #Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))+
+  labs(x = NULL,  y = expression(paste(italic("Ostrea lurida "), "abundance ", " (no. ",  m^-2,")")))
+  
+oyster_p4 
+```
+
+
+```{r ostrea low sitetype, fig.cap = " Low zone oyster abundance by site type (cobble, bench, riprap)"}
+
+#Low zone oyster abun x sitetype
+oyster_p5 <- rqs7 %>% 
+  filter(site_type != "blocks") %>%
+    filter(site_type != "seawall") %>%
+  drop_na(oyster_n_avg) %>% 
+ # filter(site_code != "RTCS")%>%
+  #  filter(site_code != "PBS")%>%
+  ggplot (aes(x = site_type, y = oyster_n_avg, fill= site_type)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch=21, position = position_jitterdodge(jitter.height = 0.5, jitter.width = 0.5, seed = 7))+
+ # scale_fill_manual(values=c("darkolivegreen4", "light grey")) +
+  theme_few()+
+  #scale_fill_few(palette = "Light")+
+  theme(legend.position = "none") +
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust = 1))+
+  #scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
+  #      labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach #Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))+
+  labs(x = NULL,  y = expression(paste(italic("Ostrea lurida "), "abundance ", " (no. ",  m^-2,")")))
+  
+oyster_p5 
+```
+
 
 ```{r Fig.1, fig.width = 6, fig.height = 8, fig.cap = "Abundance of rockweed (Fucus distichus) and native oysters (Ostrea lurida) in the mid intertidal rockweed zone at survey sites. Colored fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus."}
 
@@ -243,6 +366,17 @@ ggarrange(fucus_p2 + rremove("x.text"), oysters_p2, ncol=1, nrow=2,heights= c(0.
 ```{r Fig.2, fig.width = 6, fig.height = 8, fig.cap = "Abundance of rockweed (Fucus distichus) and native oysters (Ostrea lurida) in the low intertidal (MLLW for most) at survey sites. Colored fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus."}
 
 ggarrange(fucus_p3 + rremove("x.text"), oysters_p3, ncol=1, nrow=2,heights= c(0.75, 1), align = "v")
+
+```
+```{r Fig.3, fig.width = 4, fig.height = 6, fig.cap = "Abundance of rockweed (Fucus distichus) and native oysters (Ostrea lurida) in the mid intertidal rockweed zone by site type."}
+
+ggarrange(fucus_p4 + rremove("x.text"), oyster_p4, ncol=1, nrow=2,heights= c(0.5, 0.55), align = "v")
+
+```
+
+```{r Fig.4, fig.width = 4, fig.height = 6, fig.cap = "Abundance of rockweed (Fucus distichus) and native oysters (Ostrea lurida) in the low intertidal (MLLW) by site type."}
+
+ggarrange(fucus_p5 + rremove("x.text"), oyster_p5, ncol=1, nrow=2,heights= c(0.5, 0.55), align = "v")
 
 ```
 
