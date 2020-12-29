@@ -2,7 +2,9 @@
 title: "SFBay Rocky Shore Survey analyses"
 author: "Karina J. Nielsen"
 date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
