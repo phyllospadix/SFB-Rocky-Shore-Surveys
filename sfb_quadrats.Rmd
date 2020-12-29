@@ -137,15 +137,20 @@ fucus_p2 <- rqs3 %>%
   drop_na(fucus_pc) %>% 
   filter(zone == "Mid") %>% 
   ggplot (aes(x = bay_perim_order, y = fucus_pc, fill = RTC_sites)) +
-  geom_boxplot(outlier.size =0) +
-  geom_point(pch=21, position = position_jitterdodge())+
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch=21, position = position_jitterdodge(jitter.height = 2, jitter.width = 1, seed = 7))+
+  scale_fill_manual(values=c("darkolivegreen4", "light grey")) +
   theme_few()+
-  scale_fill_few(palette = "Light")+
+  #scale_fill_few(palette = "Light")+
+  theme(legend.position = "none") +
   theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust = 1))+
   scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
         labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))
   
 fucus_p2
+
+
+
 ```
 ### Low zone Fucus cover x site, ordered around SFBay perimeter, highlighting RTC sites
 ```{r}
@@ -153,10 +158,12 @@ fucus_p3 <- rqs3 %>%
   drop_na(fucus_pc) %>% 
   filter(zone == "Low") %>% 
   ggplot (aes(x = bay_perim_order, y = fucus_pc, fill = RTC_sites)) +
-  geom_boxplot(outlier.size =0) +
-  geom_point(pch=21, position = position_jitterdodge())+
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch=21, position = position_jitterdodge(jitter.height = 2, jitter.width = 1, seed = 7))+
+  scale_fill_manual(values=c("darkolivegreen4", "light grey")) +
   theme_few()+
-  scale_fill_few(palette = "Light")+
+  #scale_fill_few(palette = "Light")+
+  theme(legend.position = "none") +
   theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust = 1))+
   scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
         labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))
@@ -169,7 +176,7 @@ fucus_p3
 oysters_p1 <- rqs3 %>% 
   drop_na(oyster_n) %>% 
   filter(zone != "High") %>% 
-  ggplot (aes(x = bay_perim_order, y = (oyster_n * 4), fill = zone)) + # denisty per Q * 4 = no/m2
+  ggplot (aes(x = bay_perim_order, y = (oyster_n * 4), fill = zone)) + # density per Q * 4 = no/m2
   geom_boxplot(outlier.size =0) +
   geom_point(pch=21, position = position_jitterdodge())+
   theme_few()+
@@ -186,10 +193,12 @@ oysters_p2 <- rqs3 %>%
   drop_na(oyster_n) %>% 
   filter(zone == "Mid") %>% 
   ggplot (aes(x = bay_perim_order, y = (oyster_n *4), fill = RTC_sites)) +
-  geom_boxplot(outlier.size =0) +
-  geom_point(pch=21, position = position_jitterdodge())+
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch=21, position = position_jitterdodge(jitter.height = 2, jitter.width = 1, seed = 7))+
+  scale_fill_manual(values=c("coral", "light grey")) +
   theme_few()+
-  scale_fill_few(palette = "Light")+
+  #scale_fill_few(palette = "Light")+
+  theme(legend.position = "none") +
   theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust = 1))+
   scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
         labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))
@@ -204,10 +213,12 @@ oysters_p3 <- rqs3 %>%
   drop_na(oyster_n) %>% 
   filter(zone == "Low") %>% 
   ggplot (aes(x = bay_perim_order, y = (oyster_n *4), fill = RTC_sites)) +
- geom_boxplot(outlier.size =0) +
-  geom_point(pch=21, position = position_jitterdodge())+
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch=21, position = position_jitterdodge(jitter.height = 2, jitter.width = 1, seed = 7))+
+  scale_fill_manual(values=c("coral", "light grey")) +
   theme_few()+
-  scale_fill_few(palette = "Light")+
+  #scale_fill_few(palette = "Light")+
+  theme(legend.position = "none") +
   theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust = 1))+
   scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
         labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))
