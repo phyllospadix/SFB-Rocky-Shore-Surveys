@@ -2,13 +2,12 @@
 title: "SFBay Rocky Shore Survey analyses"
 author: "Karina J. Nielsen"
 date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
-output:
-  html_document: default
+output: bookdown::html_document2
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,
-                      fig.align = "center",
+                      fig.align = "left",
                       fig.width = 6,
                       fig.height = 4,
                       dev = "png",
@@ -21,9 +20,9 @@ knitr::opts_chunk$set(echo = FALSE,
 ```
 
 
-```{r library}
+```{r library, message=FALSE}
 library("easypackages")
-my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex") 
+my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex", "bookdown", "ggpubr") 
 libraries(my_packages)
 
 # Install packages if needed
@@ -33,7 +32,7 @@ libraries(my_packages)
 # checks to make sure the packages needed are loaded and asks before installing to confirm install in the console window
 ```
 
-```{r renv}
+```{r renv, message=FALSE}
 #Track/maintain package versions in workflow
 
 #renv::init # to initialize a new project-local environment with a private R library
@@ -53,7 +52,7 @@ renv::snapshot()
 ```
 
 
-```{r here}
+```{r here, message=FALSE}
 
 ## Confirm working directory for project
 here::here() # use this to work with sub-directories less awkwardly and share projects across users/machines more easily.
@@ -61,7 +60,7 @@ here::here() # use this to work with sub-directories less awkwardly and share pr
 
 
 
-```{r read}
+```{r read, message=FALSE}
 ##Reads in *.csv data files to tibbles and keeps first row as column names
 
 rqs <- read_csv(here::here ("data","sfbay_rockweed_quadrat_surveys.csv"), col_names = TRUE) 
@@ -71,7 +70,7 @@ rqs.loc <- read_csv(here::here ("data","sfbay_rockweed_site_names_locations.csv"
 
 ```
 
-```{r wrangle}
+```{r wrangle, message=FALSE}
 
 # Updates rqs$date formatting from chr to POSIXct
 rqs <- mutate(rqs, date = as.POSIXct(rqs$date, tz = "America/Los_Angeles", format = "%m/%d/%Y")) 
@@ -105,7 +104,7 @@ rqs3
 # Plots of quadrat data from each transect {#anchor}
 ## Rockweed, *Fucus distichus*
 
-```{r}
+```{r fucus x zone, fig.cap = " Cover of *Fucus distichus* at survey sites in the mid and low intertidal zones. Paradise Beach Park and Point Molate had sandy/muddy habitat in the low zone and thus were not surveyed. Width of the box plot appears wider at these sites than the others"}
 
 # Mid + low zone Fucus cover x site, ordered around SFBay perimeter
 fucus_p1 <- rqs3 %>% 
@@ -125,7 +124,8 @@ fucus_p1
 
 ```
 
-```{r}
+```{r fucus mid, fig.cap = " Cover of *Fucus distichus* in mid intertidal zone at survey sites. Green fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus"}
+
 #Mid zone Fucus cover x site, ordered around SFBay perimeter, highlighting RTC sites
 fucus_p2 <- rqs3 %>% 
   drop_na(fucus_pc) %>% 
@@ -148,7 +148,8 @@ fucus_p2
 
 ```
 
-```{r}
+```{r fucus low, fig.cap = " Cover of *Fucus distichus* in low intertidal zone at survey sites. Green fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus. Paradise Beach Park and Point Molate had sandy/muddy habitat in the low zone and thus were not surveyed."}
+
 #Low zone Fucus cover x site, ordered around SFBay perimeter, highlighting RTC sites
 fucus_p3 <- rqs3 %>% 
   drop_na(fucus_pc) %>% 
@@ -171,7 +172,7 @@ fucus_p3
 
 ## Native oyster, *Ostrea lurida*
 
-```{r}
+```{r ostrea x zone, fig.cap = " Cover of *Ostrea lurida* at survey sites in the mid and low intertidal zones. Paradise Beach Park and Point Molate had sandy/muddy habitat in the low zone and thus were not surveyed. Width of the box plot appears wider at these sites than the others"}
 
 #Mid + Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter
 oysters_p1 <- rqs3 %>% 
@@ -189,7 +190,8 @@ oysters_p1 <- rqs3 %>%
 oysters_p1
 ```
 
-```{r}
+```{r ostrea mid, fig.cap = " Abundancer of *Ostrea lurida* in mid intertidal zone at survey sites. Coral fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus."}
+
 #Mid zone native oyster density (no. per m2) x site, ordered around SFBay perimeter, highlighting RTC sites
 oysters_p2 <- rqs3 %>%
   drop_na(oyster_n) %>% 
@@ -211,7 +213,8 @@ oysters_p2
 #fucus_p1/oyster_p1 #uses patchwork package to arrange plots - very cool
 ```
 
-```{r}
+```{r ostrea low, fig.cap = " Abundancer of *Ostrea lurida* in low intertidal zone at survey sites. Coral fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus.Paradise Beach Park and Point Molate had sandy/muddy habitat in the low zone and thus were not surveyed."}
+
 #Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter, highlighting RTC sites
 oysters_p3 <- rqs3 %>%
   drop_na(oyster_n) %>% 
@@ -230,11 +233,18 @@ oysters_p3 <- rqs3 %>%
 
 oysters_p3
 ```
-```{r}
-######## Stopped here -> next step combine into one figure each for Fucus and Ostrea and create legend for RTC sites.
+
+
+```{r Fig.1, fig.width = 6, fig.height = 8, fig.cap = "Abundance of rockweed (Fucus distichus) and native oysters (Ostrea lurida) in the mid intertidal rockweed zone at survey sites. Colored fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus."}
+
+ggarrange(fucus_p2 + rremove("x.text"), oysters_p2, ncol=1, nrow=2,heights= c(0.75, 1), align = "v")
 
 ```
+```{r Fig.2, fig.width = 6, fig.height = 8, fig.cap = "Abundance of rockweed (Fucus distichus) and native oysters (Ostrea lurida) in the low intertidal (MLLW for most) at survey sites. Colored fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus."}
 
+ggarrange(fucus_p3 + rremove("x.text"), oysters_p3, ncol=1, nrow=2,heights= c(0.75, 1), align = "v")
+
+```
 
 ```{r, include=FALSE}
 ## save figure to output folder
