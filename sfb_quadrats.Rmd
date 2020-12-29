@@ -220,7 +220,6 @@ oysters_p2
 #fucus_p1/oyster_p1 #uses patchwork package to arrange plots - very cool
 ```
 
-
 ```{r}
 #Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter, highlighting RTC sites
 oysters_p3 <- rqs3 %>%
