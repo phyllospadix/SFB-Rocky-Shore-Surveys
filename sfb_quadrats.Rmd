@@ -4,100 +4,88 @@ author: "Karina J. Nielsen"
 date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
 output:
   html_document: default
-  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE,
+                      fig.align = "center",
+                      fig.width = 6,
+                      fig.height = 4,
+                      dev = "png",
+                      cache = TRUE)
+
+
+# echo = FALSE means code will not print, by default
+#cache = TRUE saves output results of all chunks so that they do not ned to be rerun
 
 ```
 
 
-```{r cars, echo=FALSE}
-## R Markdown
+```{r library}
+library("easypackages")
+my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex") 
+libraries(my_packages)
 
-#This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Install packages if needed
+# install.packages("easypackages")
+# packages(my_packages) 
 
-#When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-  
-#summary(cars)
-## Including Plots
-
-#You can also embed plots, for example:
+# checks to make sure the packages needed are loaded and asks before installing to confirm install in the console window
 ```
 
-```{r pressure, echo=FALSE}
-#plot(pressure)
-
-#Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-```
-
-```{r, include=FALSE}
-
-## Confirm working directory for project
-here::here() # use this to work with sub-directories less awkwardly and share projects across users/machines more easily.
-```
-
-```{r, include=FALSE}
-
-## Track/maintain package versions in workflow
+```{r renv}
+#Track/maintain package versions in workflow
 
 #renv::init # to initialize a new project-local environment with a private R library
-
 #run as needed later in the project to capture required package versions
 
 renv::snapshot() 
 
 #NB must respond and affirm actions in console or you will see the spinning wheel....
-
 #reference for renv workflow: https://rstudio.github.io/renv/articles/renv.html
 
 ```
 
-```{r, include=FALSE}
-## Install or load packages as needed
+```{r functions}
 
-#install.pac#kages("easypackages")
-library("easypackages")
-my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork") # list of packages to be used in this analysis
-#my_stats <- c("AICcmodavg", "lme4", "lmerTest" ) # list of stats packages to be used in this analysis
-#packages(my_packages) 
-#packages(my_stats)
-# checks to make sure the packages needed are loaded and asks before installing to confirm install in the console window
-# Use for sharing Rmd files/code with others
-libraries(my_packages) # use this in lieu of packages() if you already have the packages installed
-#libraries(my_stats)
+#As needed...
+
 ```
 
 
-```{r, include=FALSE}
-##Read in data *.csv data file
+```{r here}
 
-rqs <- read_csv(here::here ("data","sfbay_rockweed_quadrat_surveys.csv"), col_names = TRUE) #reads in cvs file to tibble and keeps first row as column names
+## Confirm working directory for project
+here::here() # use this to work with sub-directories less awkwardly and share projects across users/machines more easily.
+```
+
+
+
+```{r read}
+##Reads in *.csv data files to tibbles and keeps first row as column names
+
+rqs <- read_csv(here::here ("data","sfbay_rockweed_quadrat_surveys.csv"), col_names = TRUE) 
+
+rqs.loc <- read_csv(here::here ("data","sfbay_rockweed_site_names_locations.csv"), col_names = TRUE) 
+
+
+```
+
+```{r wrangle}
+
+# Updates rqs$date formatting from chr to POSIXct
 rqs <- mutate(rqs, date = as.POSIXct(rqs$date, tz = "America/Los_Angeles", format = "%m/%d/%Y")) 
-# updates date$rqs formating from chr to POSIXct
-rqs #shows first rows of tibble
 
-```
+# Convert zone character variable to factor variable with ordered levels
+rqs <- mutate(rqs, zone = as.factor(rqs$zone)) 
+rqs$zone <- ordered(rqs$zone, levels = c("Low", "Mid", "High")) 
 
-```{r, include=FALSE}
-## Convert zone character variable to factor variable with ordered levels
-rqs <- mutate(rqs, zone = as.factor(rqs$zone)) # converts zone to a factor variable (default order is alpha for characters)
-rqs$zone <- ordered(rqs$zone, levels = c("Low", "Mid", "High")) # defines order of the factor
-rqs
-```
-
-
-```{r, include=FALSE}
-##update data file with new location information from second file
-rqs.loc <- read_csv(here::here ("data","sfbay_rockweed_site_names_locations.csv"), col_names = TRUE) #reads in cvs file to tibble and keeps first row as column names
 rqs.loc$bay_perim_order = as.factor(rqs.loc$bay_perim_order)
 select(rqs.loc, -notes)
+
 rqs2 <- dplyr::full_join(rqs, rqs.loc, by = "site_code")
 rqs2
-```
 
-```{r, include=FALSE}
 rqs3 <- rqs2 %>% 
   mutate(RTC_sites = case_when(
         site_code %in% c("PBS", "PCR", "PCW", "PCB", "PCC", "RTCR", "RTCC", "RTCS", "SQB")  ~ "RTC",
@@ -108,9 +96,10 @@ rqs3 <- rqs2 %>%
   relocate(long, .after = lat)%>%
   relocate(bay_perim_order, .after = site_code)
 
-rqs3 <- mutate(rqs3, RTC_sites = as.factor(rqs3$RTC_sites)) # converts zone to a factor variable (default order is alpha for characters)
-rqs3$RTC_sites <- ordered(rqs3$RTC_sites, levels = c("RTC", "other")) # defines order of the factor
-rqs3     
+rqs3 <- mutate(rqs3, RTC_sites = as.factor(rqs3$RTC_sites))
+rqs3$RTC_sites <- ordered(rqs3$RTC_sites, levels = c("RTC", "other")) 
+rqs3 
+
 ```
 
 # Plots of quadrat data from each transect {#anchor}
