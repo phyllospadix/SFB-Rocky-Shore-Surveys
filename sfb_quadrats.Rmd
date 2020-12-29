@@ -221,16 +221,16 @@ oysters_p3
 # ggsave(here::here("output","oyster_quad_counts.pdf"), width = 20, height = 20, units = "cm")
 ```
 
-```{r, include=FALSE}
+```{r}
 ##what's up with Keller Beach mid zone oyster count?
 #used this to figure out outlier issue and correct original data file (was a date entry error). #Updated the file in github with a commit note to explain the change.
 #saving code chunk here for reference only
 
-t1 <- rqs2 %>% 
-  group_by(zone, site_name)%>%
-  summarise(min_cov= min(oyster_n, na.rm = TRUE), Q1=quantile(oyster_n, probs = 0.25, na.rm = TRUE), median_cov = median(oyster_n, na.rm = TRUE), Q3=quantile(oyster_n, probs = 0.75, na.rm = TRUE), max_cov = max(oyster_n, na.rm = TRUE)) %>% 
-  arrange(min_cov, Q1, median_cov, Q3, max_cov)
-t1
+# t1 <- rqs3 %>% 
+#   group_by(zone, site_name)%>%
+#   summarise(min_cov= min(oyster_n, na.rm = TRUE), Q1=quantile(oyster_n, probs = 0.25, na.rm = TRUE), median_cov = median(oyster_n, na.rm = TRUE), Q3=quantile(oyster_n, probs = 0.75, na.rm = TRUE), max_cov = max(oyster_n, na.rm = TRUE)) %>% 
+#   arrange(min_cov, Q1, median_cov, Q3, max_cov)
+# t1
 ```
 
 
