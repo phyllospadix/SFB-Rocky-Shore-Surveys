@@ -147,7 +147,7 @@ fucus_p2 <- rqs3 %>%
   scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
         labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))
   
-fucus_p2
+fucus_p2 +labs(x = NULL,  y = expression(paste(italic(" Fucus distichus"), " cover (%)")))
 
 
 
@@ -168,7 +168,7 @@ fucus_p3 <- rqs3 %>%
   scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
         labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))
   
-fucus_p3
+fucus_p3 +labs(x = NULL,  y = expression(paste(italic(" Fucus distichus"), " cover (%)")))
 ```
 ## Native oyster, *Ostrea lurida*
 ### Mid + Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter
@@ -203,7 +203,7 @@ oysters_p2 <- rqs3 %>%
   scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
         labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))
 
-oysters_p2
+oysters_p2 +labs(x = NULL,  y = expression(paste(italic("Ostrea lurida "), "abundance ", " (no. ",  m^-2,")")))
  
 #fucus_p1/oyster_p1 #uses patchwork package to arrange plots - very cool
 ```
@@ -223,7 +223,11 @@ oysters_p3 <- rqs3 %>%
   scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
         labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Pt. Chauncey", "Pt. Chauncey Beach S", "Pt. Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Pt. San Pablo", "Pt. Orient N", "Pt. Orient S", "Pt. Molate", "Keller Beach", "Miller Knox"))
 
-oysters_p3
+oysters_p3 +labs(x = NULL,  y = expression(paste(italic("Ostrea lurida "), "abundance ", " (no. ",  m^-2,")")))
+```
+```{r}
+######## Stopped here -> next step combine into one figure each for Fucus and Ostrea and create legend for RTC sites.
+
 ```
 
 
