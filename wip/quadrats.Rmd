@@ -1,0 +1,202 @@
+---
+title: "quadrats"
+author: "kjn"
+date: "7/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Install packages if needed, attach them, and track/maintain versions in workflow
+
+```{r, include=FALSE}
+renv::init # to initialize a new project-local environment with a private R library
+#reference for renv workflow: https://rstudio.github.io/renv/articles/renv.html
+#my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork") # list of packages to be used in this Rmd file
+#packages (my_packages) 
+# checks to make sure the packages needed are loaded and asks before installing to confirm install in the console window
+libraries (my_packages) # could be used in lieu of packages() if you already have the packages installed
+
+```
+##Confirm working directory for project
+```{r}
+here::here() # use this to work with sub-directories less awkwardly and share projects across users/machines more easily.
+```
+## Run this to update snapshot of packages when you commit the file
+```{r}
+#run as needed later in the project to capture required package versions
+#renv::snapshot() 
+#NB must respond and affirma actions in console or you will see the spinning wheel....
+```
+##Read in data *.csv data file
+```{r}
+rqs <- read_csv(here::here ("data","sfbay_rockweed_quadrat_surveys.csv"), col_names = TRUE) #reads in cvs file to tibble and keeps first row as column names
+rqs <- mutate(rqs, date = as.POSIXct(rqs$date, tz = "America/Los_Angeles", format = "%m/%d/%Y")) 
+# updates date$rqs formating from chr to POSIXct
+rqs #shows first rows of tibble
+```
+
+## Convert zone character variable to factor variable with ordered levels
+```{r}
+rqs <- mutate(rqs, zone = as.factor(rqs$zone)) # converts zone to a factor variable (default order is alpha for characters)
+rqs$zone <- ordered(rqs$zone, levels = c("Low", "Mid", "High")) # defines order of the factor
+rqs
+```
+## boxplots of fucus and barnacle cover by site type and zone
+``` {r}
+p1 <- rqs %>% 
+  drop_na(fucus_pc) %>% 
+  filter(zone != "High") %>% 
+  #summary(fucus_pc)
+  ggplot (aes(x = site_type, y = fucus_pc, fill = zone)) +
+  geom_boxplot() +
+  theme_few() +
+  scale_fill_few(palette = "Light")
+
+
+p2 <- rqs %>% 
+  drop_na(barnacl_pc) %>% 
+  #summary(fucus_pc)
+  filter(zone != "High") %>% 
+  ggplot (aes(x = site_type, y = barnacl_pc, fill = zone)) +
+  geom_boxplot() +
+  theme_few()+
+  scale_fill_few(palette = "Light")
+
+p3 <- rqs %>% 
+  drop_na(oyster_n) %>% 
+  filter(zone != "High") %>% 
+  ggplot (aes(x = site_type, y = oyster_n, fill = zone)) +
+  geom_boxplot() +
+  theme_few()+
+  scale_fill_few(palette = "Medium")
+
+p4 <- rqs %>% 
+  drop_na(oyster_scar_n) %>% 
+  filter(zone != "High") %>% 
+  ggplot (aes(x = site_type, y = oyster_scar_n, fill = zone)) +
+  geom_boxplot() +
+  theme_few()+
+  scale_fill_few(palette = "Medium")
+
+p1/p2 #uses patchwork package to arrange plots - very cool
+
+p3/p4
+
+
+```
+
+```{r}
+
+p5 <- rqs %>% 
+  drop_na(chiton_n) %>% 
+  filter(zone != "High") %>% 
+  ggplot (aes(x = site_type, y = chiton_n, fill = zone)) +
+  geom_boxplot() +
+  theme_few()+
+  scale_fill_few(palette = "Medium")
+
+p6 <- rqs %>% 
+  drop_na(littorine_n) %>% 
+  filter(zone != "High") %>% 
+  ggplot (aes(x = site_type, y = littorine_n, fill = zone)) +
+  geom_boxplot() +
+  theme_few()+
+  scale_fill_few(palette = "Medium")
+
+p5/p6
+```
+```{r}
+p7 <- rqs %>% 
+  drop_na(fucus_pc) %>% 
+  filter(zone != "High") %>% 
+  ggplot (aes(x = site_code, y = fucus_pc, fill = zone)) +
+  geom_boxplot() +
+  theme_few()+
+  scale_fill_few(palette = "Medium")+
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5))
+
+p7
+```
+
+##update data file with new location information from companion file
+```{r}
+rqs.loc <- read_csv(here::here ("data","sfbay_rockweed_site_names_locations.csv"), col_names = TRUE) #reads in cvs file to tibble and keeps first row as column names
+rqs.loc$bay_perim_order = as.factor(rqs.loc$bay_perim_order)
+select(rqs.loc, -notes)
+rqs2 <- dplyr::full_join(rqs, rqs.loc, by = "site_code")
+rqs2
+```
+
+##Plot of Mid Zone Fucus Cover by site, ordered around Bay perimiter
+```{r}
+p8 <- rqs2 %>% 
+  drop_na(fucus_pc) %>% 
+  filter(zone == "Mid") %>% 
+  ggplot (aes(x = bay_perim_order, y = fucus_pc, fill = zone)) +
+  geom_boxplot() +
+  theme_few()+
+  scale_fill_few(palette = "Light")+
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5))+
+  scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
+        labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Point Chauncey Blocks", "Point Chauncey Beach S", "Point Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Red Rocks", "Point Orient N", "Point Orient S", "Point Molate", "Keller Beach", "Miller Knox"))
+  
+ p8
+
+```
+```{r}
+p9 <- rqs2 %>% 
+  drop_na(oyster_n) %>% 
+  filter(zone != "High") %>% 
+  ggplot (aes(x = bay_perim_order, y = oyster_n, fill = zone)) +
+  geom_boxplot() +
+  theme_few()+
+  scale_fill_few(palette = "Light")+
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5))+
+  scale_x_discrete(breaks= c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), 
+        labels=c("SF Marina","Horseshoe Bay","Dunphy Park", "Brickyard Park", "RTC Beach", "RTC Theater", "RTC North Dock", "Point Chauncey Blocks", "Point Chauncey Beach S", "Point Chauncey Beach N", "Paradise Beach Park", "Paradise Cay", "San Quentin Beach", "Starkweather Park", "Red Rocks", "Point Orient N", "Point Orient S", "Point Molate", "Keller Beach", "Miller Knox"))
+
+ p9
+
+```
+## save figure to output folder
+```{r}
+ggsave(here::here("output","oyster_quad_counts.pdf"), width = 20, height = 20, units = "cm")
+```
+
+##what's up with Keller Beach mid zone oyster count?
+```{r}
+#used this to figure out outlier issue and correct original data file (was a date entry error). #Updated the file in github with a commit note to explain the change.
+#saving code chunk here for reference only
+t1 <- rqs2 %>% 
+  group_by(zone, site_name)%>%
+  summarise(min_cov= min(oyster_n, na.rm = TRUE), Q1=quantile(oyster_n, probs = 0.25, na.rm = TRUE), median_cov = median(oyster_n, na.rm = TRUE), Q3=quantile(oyster_n, probs = 0.75, na.rm = TRUE), max_cov = max(oyster_n, na.rm = TRUE)) %>% 
+  arrange(min_cov, Q1, median_cov, Q3, max_cov)
+t1
+```
+```{r}
+
+```
+
+
