@@ -6,12 +6,14 @@ output: bookdown::html_document2
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE,
-                      fig.align = "left",
-                      fig.width = 6,
-                      fig.height = 4,
-                      dev = "png",
-                      cache = TRUE)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  fig.align = "left",
+  fig.width = 6,
+  fig.height = 4,
+  dev = "png",
+  cache = TRUE
+)
 
 
 # echo = FALSE means code will not print, by default
@@ -138,7 +140,7 @@ rqs7
 # Plots of quadrat data from each transect {#anchor}
 
 
-```{r fucus x zone, include=FALSE}
+```{r fucus x zone, include=TRUE, fig.width = 9, fig.height = 6}
 
 # Mid + low zone Fucus cover x site, ordered around SFBay perimeter
 
@@ -146,7 +148,7 @@ fucus_p1 <- rqs3 %>%
   drop_na(fucus_pc) %>%
   filter(zone != "High") %>%
   ggplot (aes(x = bay_perim_order, y = fucus_pc, fill = zone)) +
-  geom_boxplot(outlier.size = 0) +
+  geom_boxplot(outlier.size = 0, position = position_dodge2(preserve = "single")) +
   geom_point(pch = 21, position = position_jitterdodge()) +
   theme_few() +
   scale_fill_few(palette = "Light") +
@@ -184,6 +186,9 @@ fucus_p1 <- rqs3 %>%
 fucus_p1
 
 ```
+
+
+
 
 ```{r fucus mid, include=FALSE}
 
@@ -343,9 +348,10 @@ fucus_p5 <- rqs7 %>%
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
-    angle = 90,
+    angle = 0,
     vjust = 0.5,
-    hjust = 1
+    hjust = 0.5,
+    size = rel(1.2)
   )) +
   labs(x = NULL,  y = expression(paste(italic(" Fucus distichus"), " cover (%)"))) +
   ggtitle("Low Zone")
@@ -354,7 +360,7 @@ fucus_p5
 ```
 
 
-```{r ostrea x zone,include=FALSE}
+```{r ostrea x zone, include=TRUE, fig.width = 9, fig.height = 6}
 
 #Mid + Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter
 
@@ -366,7 +372,7 @@ oysters_p1 <- rqs3 %>%
     y = (oyster_n * 4),
     fill = zone
   )) + # density per Q * 4 = no/m2
-  geom_boxplot(outlier.size = 0) +
+  geom_boxplot(outlier.size = 0, position = position_dodge2(preserve = "single")) +
   geom_point(pch = 21, position = position_jitterdodge()) +
   theme_few() +
   scale_fill_few(palette = "Light") +
@@ -399,7 +405,7 @@ oysters_p1 <- rqs3 %>%
       "Keller Beach",
       "Miller Knox"
     )
-  ) +
+  )
   
   
   oysters_p1
@@ -546,14 +552,14 @@ oyster_p4 <- rqs5 %>%
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
-    angle = 90,
+    angle = 0,
     vjust = 0.5,
-    hjust = 1
+    hjust = 0.5
   )) +
   labs(x = NULL,  y = expression(paste(
     italic("Ostrea lurida "), "abundance ", " (no. ",  m ^ -2, ")"
   ))) +
-  ggtitle("Low Zone")
+  ggtitle("Mid Zone")
 
 oyster_p4 
 ```
@@ -579,9 +585,10 @@ oyster_p5 <- rqs7 %>%
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
-    angle = 90,
+    angle = 0,
     vjust = 0.5,
-    hjust = 1
+    hjust = 0.5,
+    size = rel(1.2)
   )) +
   labs(x = NULL,  y = expression(paste(
     italic("Ostrea lurida "), "abundance ", " (no. ",  m ^ -2, ")"
@@ -633,13 +640,15 @@ scat1
 
 ```
 
-```{r}
+```{r Fig.5, fig.width = 10, fig.height = 4, fig.cap = " Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type."}
 scat2 <- rqs3 %>%
   drop_na(oyster_n, oyster_scar_n) %>%
   filter(zone != "High") %>% 
-  ggplot (aes(x = oyster_n, y = oyster_scar_n, color = zone)) +
-  geom_point(size = 4, alpha=0.7) +
-  theme_few()
+  ggplot (aes(x = oyster_n, y = oyster_scar_n, color = site_code)) +
+  geom_point(size = 3, alpha=0.5, position = position_jitterdodge()) +
+  facet_wrap (~ zone)+
+  theme_few()+
+  guides(col = guide_legend(ncol = 2))
 
 scat2
 ```
