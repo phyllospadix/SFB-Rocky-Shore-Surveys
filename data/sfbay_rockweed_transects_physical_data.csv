@@ -1,0 +1,101 @@
+download log,site,date,habitat,transect #,position (m),taut length (m),chain length (m),relative rugosity,top GPS lat (37),top GPS long (122),Bottom GPS lat (37),Bottom GPS long (122),Notes
+"KJN downloaded for analysis and archiving in github on 12/31/2020. If you want to update this sheet for any reason, contact KJN to coordinate. thanks!",Brickyard Park,5/10/19,bench,1,1.1,15.0,15.9,1.06,88168,50368,88172,50383,"weak/no GPS signal top of transect, top @ 11m"
+,Brickyard Park,5/10/19,bench,2,4.6,17.3,18.2,1.05,88169,50363,88171,50388,top at 15m
+,Brickyard Park,5/10/19,bench,3,8.7,14.1,16.0,1.13,88165,50376,88167,50388,top at 12.6m
+,Brickyard Park,5/10/19,bench,4,13.9,14.0,17.8,1.27,88163,50363,88166,50391,
+,Brickyard Park,5/10/19,bench,5,19.7,12.5,15.0,1.20,88155,50375,88162,50392,
+,Dunphy Park,05/08/19,riprap,1,1.0,19.0,20.85,1.10,86135,48629,86150,48616,
+,Dunphy Park,05/08/19,riprap,2,2.8,19.1,20.3,1.06,86137,48636,86153,48626,
+,Dunphy Park,05/08/19,riprap,3,12.0,19.6,21.1,1.07,86139,48635,86154,48628,shortened tape
+,Dunphy Park,05/08/19,riprap,4,13.7,19.0,20.8,1.09,86140,48637,86155,48631,
+,Dunphy Park,05/08/19,riprap,5,18.8,19.2,21.5,1.12,86142,48644,86156,48636,
+,Horseshoe Bay,05/22/19,Riprap,1,1.5,9.2,12.18,1.32,83388,47592,83380,47592,
+,Horseshoe Bay,05/22/19,Riprap,2,5.6,8.9,13.06,1.47,83384,47586,83380,47588,
+,Horseshoe Bay,05/22/19,Riprap,3,8.4,9.9,12.13,1.23,83386,47585,83380,47584,
+,Horseshoe Bay,05/22/19,Riprap,4,13.7,8.5,11.70,1.38,83385,47577,83381,47577,
+,Horseshoe Bay,05/22/19,Riprap,5,16.7,8.5,11.7,1.37,83384,47575,83381,47573,
+,Keller Beach,07/03/19,bench + cobble,1,0.0,14.75,16.7,1.13,92266,39021,98256,39017,Position not on field datasheet. KJN: Used GPS positions and google earth to derive the top positions of each transect
+,Keller Beach,07/03/19,bench + cobble,2,26.0,15.9,18.7,1.18,98869,38991,92252,38983,Position not on field datasheet. KJN: Used GPS positions and google earth to derive the top positions of each transect
+,Keller Beach,07/03/19,bench + cobble,3,43.0,14.5,16.3,1.12,92268,38972,92258,38974,Position not on field datasheet. KJN: Used GPS positions and google earth to derive the top positions of each transect
+,Keller Beach,07/03/19,bench + cobble,4,48.0,14.5,16.3,1.12,92267,38966,92255,38966,Position not on field datasheet. KJN: Used GPS positions and google earth to derive the top positions of each transect
+,Keller Beach,07/03/19,bench + cobble,5,67.0,15,17.9,1.19,92266,38945,92255,38947,Position not on field datasheet. KJN: Used GPS positions and google earth to derive the top positions of each transect
+,Miller Knox,07/04/19,Rip rap,1,2.0,9.4,12.2,1.29,91962,38661,91963,38670,
+,Miller Knox,07/04/19,Rip rap,2,5.0,9.5,12.4,1.30,91959,38660,91960,38671,
+,Miller Knox,07/04/19,Rip rap,3,10.0,10.3,13.9,1.35,91953,38662,91956,38672,
+,Miller Knox,07/04/19,Rip rap,4,14.0,10.3,12.87,1.25,91950,38663,91954,38674,
+,Miller Knox,07/04/19,Rip rap,5,17.0,11.1,13.5,1.21,91948,38665,91949,38675,
+,Paradise Beach Park,07/02/19,seawall,1,4.0,0.6,,,89396,45688,89402,45690,"no rugosity taken, seawall made of two concrete blocks stacked on top of each other. Riprap at base and small ledge at the stacking point abouy half way up the ""wall"""
+,Paradise Beach Park,07/02/19,seawall,2,10.0,0.6,,,89394,45698,89392,45697,"no rugosity taken, seawall made of two concrete blocks stacked on top of each other. Riprap at base and small ledge at the stacking point abouy half way up the ""wall"""
+,Paradise Beach Park,07/02/19,seawall,3,13.0,0.2,,,89395,45695,89391,45701,"no rugosity taken, seawall made of two concrete blocks stacked on top of each other. Riprap at base and small ledge at the stacking point abouy half way up the ""wall"""
+,Paradise Beach Park,07/02/19,seawall,4,15.0,0.4,,,89395,45700,89390,45703,"no rugosity taken, seawall made of two concrete blocks stacked on top of each other. Riprap at base and small ledge at the stacking point abouy half way up the ""wall"""
+,Paradise Beach Park,07/02/19,seawall,5,19.0,0.6,,,89389,45703,89396,45704,"no rugosity taken, seawall made of two concrete blocks stacked on top of each other. Riprap at base and small ledge at the stacking point abouy half way up the ""wall"""
+,Pt. Chauncey Beach N,05/12/19,Bench,1,18.4,12.2,15.3,1.25,89394,45085,89402,45089,
+,Pt. Chauncey Beach N,05/12/19,Bench,2,15.0,12.4,15.0,1.21,89391,45085,89400,45090,
+,Pt. Chauncey Beach N,05/12/19,Bench,3,9.8,10.3,11.7,1.14,89391,45094,89400,45098,
+,Pt. Chauncey Beach N,05/12/19,Bench,4,7.9,12.5,14.9,1.19,89389,45096,89401,45100,
+,Pt. Chauncey Beach N,05/12/19,Bench,5,0.3,13.7,17.8,1.30,89385,45107,89399,45109,
+,Pt. Chauncey Beach S,04/24/19,Cobble,1,2.4,18.1,20.6,1.14,89405,45022,89417,45030,
+,Pt. Chauncey Beach S,04/24/19,Cobble,2,5.6,17.5,18.5,1.06,89403,45025,89414,45036,
+,Pt. Chauncey Beach S,04/24/19,Cobble,3,9.2,20.2,21.6,1.07,89401,45027,89417,45039,
+,Pt. Chauncey Beach S,04/24/19,Cobble,4,13.9,16.4,19.5,1.19,89399,45034,89415,45045,
+,Pt. Chauncey Beach S,04/24/19,Cobble,5,19.6,10.4,11.9,1.14,89404,45042,89415,45049,
+,Pt. Chauncey,04/23/19,Rip rap,1,1.5,10.5,14.7,1.40,89411,44986,89421,44986,
+,Pt. Chauncey,04/23/19,Rip rap,2,6.7,9.5,12.2,1.28,89410,44993,89421,44991,
+,Pt. Chauncey,04/23/19,Rip rap,3,11.5,9.69,15.6,1.61,89411,44998,89422,44997,tran length 10.3 or 10.1 short end
+,Pt. Chauncey,04/23/19,Rip rap,4,16.0,9.7,15.1,1.56,89410,45004,89421,45004,
+,Pt. Chauncey,04/23/19,Rip rap,5,18.4,9.6,15.1,1.57,89412,45007,89421,45006,
+,Paradise Cay,05/20/19,Rip rap,1,1.1,9.6,12.3,1.28,91612,47851,91617,47855,Position is parallel to shore tape is the 0.2 short one. taught length stop at 10m.
+,Paradise Cay,05/20/19,Rip rap,2,7.9,11.0,12.4,1.13,91610,47860,91616,47865,
+,Paradise Cay,05/20/19,Rip rap,3,9.1,11.0,,0.00,91608,47861,91615,47867,"CZ: switched these, assuming error in recording. How can chain length be shorter than taught length KJN: agree, but these seem off for riprap. I prefer to drop these altogether."
+,Paradise Cay,05/20/19,Rip rap,4,14.1,11.1,,0.00,91607,47865,91616,47871,"CZ: switched these, assuming error in recording. How can chain length be shorter than taught length KJN: agree, but these seem off for riprap. I prefer to drop these altogether."
+,Paradise Cay,05/20/19,Rip rap,5,19.6,11.6,12.2,1.05,91607,47871,91615,47875,
+,Pt. Molate,06/08/19,Bench,1,16.6,8.0,10.0,1.25,93931,41106,939933,41113,15 cm spacing for point-intercept
+,Pt. Molate,06/08/19,Bench,2,12.0,10.0,11.2,1.12,93927,41104,93928,41119,15 cm spacing for point-intercept
+,Pt. Molate,06/08/19,Bench,3,10.8,9.7,11.3,1.16,93925,41096,93925,41116,15 cm spacing for point-intercept
+,Pt. Molate,06/08/19,Bench,4,4.5,13.5,13.8,1.02,93920,41109,93917,41124,20 cm spacing for point-intercept
+,Pt. Molate,06/08/19,Bench,5,3.1,12.7,13.7,1.08,93917,41107,93911,41116,20 cm spacing for point-intercept
+,Pt. Orient S,06/18/19,Bench,1,0.7,12.0,,,95483,42159,95476,42170,No chain length
+,Pt. Orient S,06/18/19,Bench,2,4.7,30.7,33.9,1.10,95487,42152,95473,42174,
+,Pt. Orient S,06/18/19,Bench,3,10.3,19.0,,,95484,42147,95466,42159,No chain length
+,Pt. Orient S,06/18/19,Bench,4,,,,,,,,,No 4th transect: Only time for three transects b/c we did two adjacent sites in collab with another project team
+,Pt. Orient S,06/18/19,Bench,5,,,,,,,,,No 5th transect: Only time for three transects b/c we did two adjacent sites in collab with another project team
+,Pt. Orient N,06/18/19,Cobble,1,1.9,11.0,,,,,95501,42185,No chain length
+,Pt. Orient N,06/18/19,Cobble,2,4.6,10.3,,,,,95494,42183,No chain length
+,Pt. Orient N,06/18/19,Cobble,3,8.4,11.9,,,95504,42168,95495,42181,No chain length
+,Pt. Orient N,06/18/19,Cobble,4,12.1,16.0,,,95507,42159,95490,42182,no chain length
+,Pt. Orient N,06/18/19,Cobble,5,16.1,16.2,,,95495,42162,95488,42180,no chain length
+,Pt. San Pablo,06/19/19,Riprap,1,2.5,12.5,13.7,1.10,96532,42664,96539,42659,
+,Pt. San Pablo,06/19/19,Riprap,2,6.1,12.7,14.6,1.15,96533,42670,96542,42662,
+,Pt. San Pablo,06/19/19,Riprap,3,11.9,14.2,15.0,1.06,96535,42675,96544,42671,
+,Pt. San Pablo,06/19/19,Riprap,4,14.1,13.4,15.0,1.12,96536,42677,96545,42672,
+,Pt. San Pablo,06/19/19,Riprap,5,19.1,13.3,14.3,1.08,96539,42682,96545,42674,
+,RTC Beach,05/11/19,Riprap,1,3.6,19.4,21.7,1.12,88889,44556,88890,44535,
+,RTC Beach,05/11/19,Cobble,2,5.0,19.0,21.9,1.15,88890,44559,88890,44537,
+,RTC Beach,05/11/19,Cobble,3,8.8,19.7,22.9,1.16,88894,44559,88897,44542,
+,RTC Beach,05/11/19,Cobble,4,14.0,19.0,22.85,1.20,88899,44559,88900,44543,
+,RTC Beach,05/11/19,Cobble,5,18.7,18.2,22.8,1.25,88905,44556,88906,44547,
+,RTC North Dock,06/05/19,Riprap,1,17.2,14.8,18.2,1.23,89292,44785,89301,44773,
+,RTC North Dock,06/05/19,Riprap,2,13.7,15.4,18.8,1.22,89299,44787,89307,44772,Big rock can't survey
+,RTC North Dock,06/05/19,Riprap,3,8.1,15.0,17.9,1.19,89298,44752,89306,44778,
+,RTC North Dock,06/05/19,Riprap,4,4.3,13.0,16.4,1.26,89301,44799,89397,44784,
+,RTC North Dock,06/05/19,Riprap,5,0.7,15.0,19.5,1.30,89303,44797,89310,44786,
+,RTC Theater,05/07/19,Seawall,1,19.1,3.9,,,89141,44703,89140,44704,Top GPS at top of wall and top edge of wall to edge of ledge for all.
+,RTC Theater,05/07/19,Seawall,2,18.0,4.5,,,89141,44701,89141,44701,No rugosity taken - will investigate crevices during point counts: CZ update based on review of datasheet scan.
+,RTC Theater,05/07/19,Seawall,3,11.5,4.3,,,89146,44704,89146,44704,
+,RTC Theater,05/07/19,Seawall,4,6.4,4.2,,,89149,44707,89150,44707,
+,RTC Theater,05/07/19,Seawall,5,2.0,4.2,,,81153,44715,89154,44711,
+,SF Marina,05/23/19,Seawall,1,1.5,3.68,4.2,1.14,80726,43834,80726,43835,Transect spine starts at 0.4m
+,SF Marina,05/23/19,Seawall,2,6.0,3.26,4.1,1.26,80725,43839,80725,43840,
+,SF Marina,05/23/19,Seawall,3,10.8,2.90,3.5,1.21,80725,43845,80726,43848,
+,SF Marina,05/23/19,Seawall,4,12.5,2.80,3.4,1.21,80725,43847,80724,43848,
+,SF Marina,05/23/19,Seawall,5,17.3,3.10,3.7,1.19,80725,43853,80727,43852,
+,San Quentin Beach,06/07/19,Bench,1,19.6,17.8,19.5,1.10,94073,48328,94065,48340,
+,San Quentin Beach,06/07/19,Bench,2,13.8,16.3,19.2,1.18,94068,48327,94062,48336,
+,San Quentin Beach,06/07/19,Bench,3,10.0,14.5,17.5,1.21,94066,48322,94057,48327,
+,San Quentin Beach,06/07/19,Bench,4,7.0,15.0,15.6,1.04,94064,48313,94057,48328,
+,San Quentin Beach,06/07/19,Bench,5,0.4,10.0,12.5,1.25,94063,48315,94048,48315,
+,Starkweather Park,06/10/19,Riprap,1,1.9,10.0,12.6,1.26,94627,48367,94627,48357,
+,Starkweather Park,06/10/19,Riprap,2,6.1,10.8,14.9,1.38,94628,48370,94635,48360,
+,Starkweather Park,06/10/19,Riprap,3,8.5,11.3,15.5,1.37,94631,48372,94641,48369,
+,Starkweather Park,06/10/19,Riprap,4,14.5,12.0,17.5,1.46,94635,48376,94641,48367,
+,Starkweather Park,06/10/19,Riprap,5,18.1,14.8,18.6,1.26,94638,48374,94644,48269,
