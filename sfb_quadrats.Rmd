@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 ```{r library, include=FALSE}
 library("easypackages")
-my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex", "bookdown", "ggpubr", "wesanderson", "pals") 
+my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex", "bookdown", "ggpubr", "wesanderson", "pals", "ggridges") 
 libraries(my_packages)
 
 # Install packages if needed
@@ -68,6 +68,8 @@ here::here() # use this to work with sub-directories less awkwardly and share pr
 rqs <- read_csv(here::here ("data","sfbay_rockweed_quadrat_surveys.csv"), col_names = TRUE) 
 
 rqs.loc <- read_csv(here::here ("data","sfbay_rockweed_site_names_locations.csv"), col_names = TRUE) 
+
+sizes <- read_csv(here::here ("data","sfbay_rockweed_quadrat_invert_sizes.csv"), col_names = TRUE)
 
 
 ```
@@ -134,6 +136,36 @@ rqs7 <- rqs7 %>%
   select(site_code, fucus_pc_avg, oyster_n_avg, site_type)
 rqs7
 
+#sizes
+
+# Convert zone character variable to factor variable with ordered levels
+sizes1 <- sizes
+mutate(sizes1, site_name = as.factor(sizes1$site_name))
+ordered(
+  sizes1$site_name,
+  levels = c(
+    "SF Marina",
+    "Horseshoe Bay",
+    "Dunphy Park",
+    "Brickyard Park",
+    "RTC Beach",
+    "RTC Theater",
+    "RTC North Dock",
+    "Pt. Chauncey",
+    "Pt. Chauncey Beach S",
+    "Pt. Chauncey Beach N",
+    "Paradise Beach Park",
+    "Paradise Cay",
+    "San Quentin Beach",
+    "Starkweather Park",
+    "Pt. San Pablo",
+    "Pt. Orient N",
+    "Pt. Orient S",
+    "Pt. Molate",
+    "Keller Beach",
+    "Miller Knox"
+  )
+)
 
 ```
 
@@ -652,6 +684,26 @@ scat2 <- rqs3 %>%
   scale_color_manual(values=as.vector(kelly(20)))  #pals color palettes issue: in ggplot2 the color vector CANNOT have names, as.vector() strips off the names from the polychrome colors
 
 scat2
+```
+
+
+```{r}
+# Load dataset from github
+
+
+# Plot
+sizes %>%
+  mutate(text = fct_reorder(text, value)) %>%
+  ggplot(aes(y = text, x = value,  fill = text)) +
+  geom_density_ridges(alpha = 0.6, stat = "binline", bins = 20) +
+  theme_ridges() +
+  theme(
+    legend.position = "none",
+    panel.spacing = unit(0.1, "lines"),
+    strip.text.x = element_text(size = 8)
+  ) +
+  xlab("") +
+  ylab("Assigned Probability (%)")
 ```
 
 ```{r, include=FALSE}
