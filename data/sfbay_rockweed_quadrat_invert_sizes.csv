@@ -1,4 +1,125 @@
 site_name,date,transect,zone,taxon,size_mm,notes,transect_notes
+SF Marina,5/23/2019,3,Mid,Limpet,17,,-3
+SF Marina,5/23/2019,3,MId,Limpet,20,,-3
+SF Marina,5/23/2019,3,Mid,Limpet,3,,-3
+SF Marina,5/23/2019,3,MId,Limpet,12,,-3
+SF Marina,5/23/2019,3,Mid,Limpet,8,,-3
+SF Marina,5/23/2019,3,Low,Limpet,3,,-3
+SF Marina,5/23/2019,3,Low,Limpet,2,,-3
+SF Marina,5/23/2019,3,Low,Limpet,2,,-3
+SF Marina,5/23/2019,3,MId,Littorine,5,,-3
+SF Marina,5/23/2019,3,Mid,Littorine,6,,-3
+SF Marina,5/23/2019,3,MId,Littorine,6,,-3
+SF Marina,5/23/2019,3,Low,MytCA,33,,-3
+SF Marina,5/23/2019,3,Low,MytCA,42,,-3
+SF Marina,5/23/2019,3,Low,MytCA,49,,-3
+SF Marina,5/23/2019,3,Low,MytCA,32,,-3
+SF Marina,5/23/2019,3,Low,MytCA,15,,-3
+SF Marina,5/23/2019,3,Low,MytCA,32,,-3
+SF Marina,5/23/2019,3,Low,MytCA,61,,-3
+SF Marina,5/23/2019,3,Low,MytCA,45,,-3
+SF Marina,5/23/2019,3,Low,Tegula,5,,-3
+SF Marina,5/23/2019,2,Mid,Limpet,5,,-2
+SF Marina,5/23/2019,2,Mid,Limpet,6,,-2
+SF Marina,5/23/2019,2,Mid,Limpet,27,,-2
+SF Marina,5/23/2019,2,Mid,Limpet,10,,-2
+SF Marina,5/23/2019,2,Mid,Limpet,14,,-2
+SF Marina,5/23/2019,2,Mid,Limpet,11,,-2
+SF Marina,5/23/2019,2,Mid,Limpet,13,,-2
+SF Marina,5/23/2019,2,Mid,Limpet,10,,-2
+SF Marina,5/23/2019,2,Mid,Limpet,8,,-2
+SF Marina,5/23/2019,2,Mid,Littorine,9,,-2
+SF Marina,5/23/2019,2,Mid,Littorine,7,,-2
+SF Marina,5/23/2019,2,Mid,Littorine,6,,-2
+SF Marina,5/23/2019,2,Mid,Littorine,6,,-2
+SF Marina,5/23/2019,2,Mid,Littorine,6,,-2
+SF Marina,5/23/2019,2,Mid,Littorine,6,,-2
+SF Marina,5/23/2019,2,Low,MytCA,10,can't measure most of these because of crevice,-2
+SF Marina,5/23/2019,2,Low,MytCA,57,can't measure most of these because of crevice,-2
+SF Marina,5/23/2019,2,Low,MytCA,24,can't measure most of these because of crevice,-2
+SF Marina,5/23/2019,2,Low,MytCA,30,can't measure most of these because of crevice,-2
+SF Marina,5/23/2019,2,Low,MytCA,31,can't measure most of these because of crevice,-2
+SF Marina,5/23/2019,2,Low,MytCA,17,can't measure most of these because of crevice,-2
+SF Marina,5/23/2019,1,Mid,Limpet,21,,-1
+SF Marina,5/23/2019,1,Mid,Limpet,11,,-1
+SF Marina,5/23/2019,1,Mid,Limpet,4,,-1
+SF Marina,5/23/2019,1,Mid,Limpet,8,,-1
+SF Marina,5/23/2019,1,Mid,Limpet,10,,-1
+SF Marina,5/23/2019,1,Mid,Limpet,8,,-1
+SF Marina,5/23/2019,1,Mid,Limpet,8,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Low,Limpet,1,,-1
+SF Marina,5/23/2019,1,Mid,Littorine,8,,-1
+SF Marina,5/23/2019,1,Low,MytCA,65,,-1
+SF Marina,5/23/2019,1,Low,MytCA,42,,-1
+SF Marina,5/23/2019,1,Low,MytCA,23,,-1
+SF Marina,5/23/2019,1,Low,MytCA,56,,-1
+SF Marina,5/23/2019,1,Low,MytCA,29,,-1
+SF Marina,5/23/2019,1,Low,MytCA,53,,-1
+SF Marina,5/23/2019,1,Low,MytCA,50,,-1
+SF Marina,5/23/2019,1,Low,MytCA,12,,-1
+SF Marina,5/23/2019,1,Low,MytCA,7,,-1
+SF Marina,5/23/2019,1,Low,MytCA,17,,-1
+SF Marina,5/23/2019,1,Mid,Mytilus,12,,-1
+SF Marina,5/23/2019,1,Mid,Mytilus,7,,-1
+SF Marina,5/23/2019,1.5,Low,Limpet,9,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,Limpet,5,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,Limpet,4,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,Limpet,4,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,MytCA,47,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,MytCA,13,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,MytCA,22,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,MytCA,28,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,MytCA,32,,b.w 1 & 2
+SF Marina,5/23/2019,1.5,Low,MytCA,16,The rest of the mussels couldn't be measured,b.w 1 & 2
+RTC Theater,5/7/2019,2.5,Mid,Limpet,5,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Limpet,6,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Limpet,7,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Limpet,8,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Limpet,7,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Limpet,7,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Limpet,4,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Limpet,6,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Limpet,5,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Limpet,7,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,13,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,12,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,15,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,7,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,12,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,11,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,15,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,12,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,13,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,High,Limpet,14,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Mytilus,9,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Oyster,12,,b.w 2 & 3
+RTC Theater,5/7/2019,2.5,Mid,Oyster,8,,b.w 2 & 3
+RTC Theater,5/7/2019,4.5,Mid,Limpet,7,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,16,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,11,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,10,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,14,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,14,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
+RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
 Brickyard Park,5/10/2019,2,Mid,Limpet,3,,
 Brickyard Park,5/10/2019,3,Mid,Limpet,5,,
 Brickyard Park,5/10/2019,4,Mid,Limpet,6,,
@@ -1143,41 +1264,7 @@ RTC Theater,5/7/2019,5,Mid,Limpet,6,,
 RTC Theater,5/7/2019,5,High,Limpet,18,,
 RTC Theater,5/7/2019,5,High,Limpet,11,,
 RTC Theater,5/7/2019,5,High,Limpet,17,,
-RTC Theater,5/7/2019,2.5,Mid,Limpet,5,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Limpet,6,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Limpet,7,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Limpet,8,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Limpet,7,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Limpet,7,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Limpet,4,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Limpet,6,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Limpet,5,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Limpet,7,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,13,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,12,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,15,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,7,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,12,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,11,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,15,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,12,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,13,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,High,Limpet,14,,b.w 2 & 3
-RTC Theater,5/7/2019,4.5,Mid,Limpet,7,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,16,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,11,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,10,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,14,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,14,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
-RTC Theater,5/7/2019,4.5,High,Limpet,15,,b.w 4 & 5
-RTC Theater,5/7/2019,2.5,Mid,Mytilus,9,,b.w 2 & 3
 RTC Theater,5/7/2019,1,Mid,Oyster,6,,
-RTC Theater,5/7/2019,2.5,Mid,Oyster,12,,b.w 2 & 3
-RTC Theater,5/7/2019,2.5,Mid,Oyster,8,,b.w 2 & 3
 San Quentin Beach,6/7/2019,2,Low,Clam,8,,
 San Quentin Beach,6/7/2019,1,Mid,Mytilus,15,,
 San Quentin Beach,6/7/2019,1,Mid,Mytilus,16,,
@@ -1278,40 +1365,6 @@ San Quentin Beach,6/7/2019,5,Low,Oyster,11,,
 San Quentin Beach,6/7/2019,5,Low,Oyster,16,,
 San Quentin Beach,6/7/2019,5,Low,Oyster,17,,
 San Quentin Beach,6/7/2019,5,Low,Oyster,24,,
-SF Marina,5/23/2019,3,Mid,Limpet,17,,-3
-SF Marina,5/23/2019,3,MId,Limpet,20,,-3
-SF Marina,5/23/2019,3,Mid,Limpet,3,,-3
-SF Marina,5/23/2019,3,MId,Limpet,12,,-3
-SF Marina,5/23/2019,3,Mid,Limpet,8,,-3
-SF Marina,5/23/2019,3,Low,Limpet,3,,-3
-SF Marina,5/23/2019,3,Low,Limpet,2,,-3
-SF Marina,5/23/2019,3,Low,Limpet,2,,-3
-SF Marina,5/23/2019,2,Mid,Limpet,5,,-2
-SF Marina,5/23/2019,2,Mid,Limpet,6,,-2
-SF Marina,5/23/2019,2,Mid,Limpet,27,,-2
-SF Marina,5/23/2019,2,Mid,Limpet,10,,-2
-SF Marina,5/23/2019,2,Mid,Limpet,14,,-2
-SF Marina,5/23/2019,2,Mid,Limpet,11,,-2
-SF Marina,5/23/2019,2,Mid,Limpet,13,,-2
-SF Marina,5/23/2019,2,Mid,Limpet,10,,-2
-SF Marina,5/23/2019,2,Mid,Limpet,8,,-2
-SF Marina,5/23/2019,1,Mid,Limpet,21,,-1
-SF Marina,5/23/2019,1,Mid,Limpet,11,,-1
-SF Marina,5/23/2019,1,Mid,Limpet,4,,-1
-SF Marina,5/23/2019,1,Mid,Limpet,8,,-1
-SF Marina,5/23/2019,1,Mid,Limpet,10,,-1
-SF Marina,5/23/2019,1,Mid,Limpet,8,,-1
-SF Marina,5/23/2019,1,Mid,Limpet,8,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
-SF Marina,5/23/2019,1,Low,Limpet,1,,-1
 SF Marina,5/23/2019,1,Mid,Limpet,4,,
 SF Marina,5/23/2019,1,Mid,Limpet,11,,
 SF Marina,5/23/2019,1,Mid,Limpet,10,,
@@ -1337,58 +1390,6 @@ SF Marina,5/23/2019,2,Mid,Limpet,18,,
 SF Marina,5/23/2019,2,Mid,Limpet,8,,
 SF Marina,5/23/2019,2,Mid,Limpet,6,,
 SF Marina,5/23/2019,2,Mid,Limpet,12,,
-SF Marina,5/23/2019,1.5,Low,Limpet,9,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,Limpet,5,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,Limpet,4,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,Limpet,4,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,Limpet,1,,b.w 1 & 2
-SF Marina,5/23/2019,3,MId,Littorine,5,,-3
-SF Marina,5/23/2019,3,Mid,Littorine,6,,-3
-SF Marina,5/23/2019,3,MId,Littorine,6,,-3
-SF Marina,5/23/2019,2,Mid,Littorine,9,,-2
-SF Marina,5/23/2019,2,Mid,Littorine,7,,-2
-SF Marina,5/23/2019,2,Mid,Littorine,6,,-2
-SF Marina,5/23/2019,2,Mid,Littorine,6,,-2
-SF Marina,5/23/2019,2,Mid,Littorine,6,,-2
-SF Marina,5/23/2019,2,Mid,Littorine,6,,-2
-SF Marina,5/23/2019,1,Mid,Littorine,8,,-1
-SF Marina,5/23/2019,3,Low,MytCA,33,,-3
-SF Marina,5/23/2019,3,Low,MytCA,42,,-3
-SF Marina,5/23/2019,3,Low,MytCA,49,,-3
-SF Marina,5/23/2019,3,Low,MytCA,32,,-3
-SF Marina,5/23/2019,3,Low,MytCA,15,,-3
-SF Marina,5/23/2019,3,Low,MytCA,32,,-3
-SF Marina,5/23/2019,3,Low,MytCA,61,,-3
-SF Marina,5/23/2019,3,Low,MytCA,45,,-3
-SF Marina,5/23/2019,2,Low,MytCA,10,can't measure most of these because of crevice,-2
-SF Marina,5/23/2019,2,Low,MytCA,57,can't measure most of these because of crevice,-2
-SF Marina,5/23/2019,2,Low,MytCA,24,can't measure most of these because of crevice,-2
-SF Marina,5/23/2019,2,Low,MytCA,30,can't measure most of these because of crevice,-2
-SF Marina,5/23/2019,2,Low,MytCA,31,can't measure most of these because of crevice,-2
-SF Marina,5/23/2019,2,Low,MytCA,17,can't measure most of these because of crevice,-2
-SF Marina,5/23/2019,1,Low,MytCA,65,,-1
-SF Marina,5/23/2019,1,Low,MytCA,42,,-1
-SF Marina,5/23/2019,1,Low,MytCA,23,,-1
-SF Marina,5/23/2019,1,Low,MytCA,56,,-1
-SF Marina,5/23/2019,1,Low,MytCA,29,,-1
-SF Marina,5/23/2019,1,Low,MytCA,53,,-1
-SF Marina,5/23/2019,1,Low,MytCA,50,,-1
-SF Marina,5/23/2019,1,Low,MytCA,12,,-1
-SF Marina,5/23/2019,1,Low,MytCA,7,,-1
-SF Marina,5/23/2019,1,Low,MytCA,17,,-1
-SF Marina,5/23/2019,1.5,Low,MytCA,47,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,MytCA,13,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,MytCA,22,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,MytCA,28,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,MytCA,32,,b.w 1 & 2
-SF Marina,5/23/2019,1.5,Low,MytCA,16,The rest of the mussels couldn't be measured,b.w 1 & 2
-SF Marina,5/23/2019,1,Mid,Mytilus,12,,-1
-SF Marina,5/23/2019,1,Mid,Mytilus,7,,-1
 SF Marina,5/23/2019,1,Low,Mytilus,55,,
 SF Marina,5/23/2019,1,Low,Mytilus,35,,
 SF Marina,5/23/2019,1,Low,Mytilus,36,,
@@ -1398,7 +1399,6 @@ SF Marina,5/23/2019,1,Low,Mytilus,29,,
 SF Marina,5/23/2019,1,Low,Mytilus,12,,
 SF Marina,5/23/2019,2,Mid,Mytilus,7,,
 SF Marina,5/23/2019,1,Low,PagH,18,Tegula shell,
-SF Marina,5/23/2019,3,Low,Tegula,5,,-3
 Starkweather Park,6/10/2019,2,Mid,Clam,12,,
 Starkweather Park,6/10/2019,2,Mid,Clam,10,,
 Starkweather Park,6/10/2019,2,Mid,Clam,14,,
