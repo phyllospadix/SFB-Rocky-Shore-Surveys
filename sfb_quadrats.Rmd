@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 ```{r library, include=FALSE}
 library("easypackages")
-my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex", "bookdown", "ggpubr", "wesanderson", "pals", "ggridges") 
+my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex", "bookdown", "ggpubr", "wesanderson", "pals", "ggridges", "hrbrthemes", "virdis") 
 libraries(my_packages)
 
 # Install packages if needed
@@ -207,6 +207,133 @@ ordered(
     "Miller Knox"
   )
 )
+
+# creates OYSTER size structure data sets for ridgeline plots
+
+oysters <- sizes1 %>%
+  filter(taxon == "Oyster") %>% 
+  select(site_name, size_mm)
+oysters2 <-oysters %>%
+  mutate(site_name = fct_reorder(site_name, size_mm))
+
+# IMPORTANT adds dummy variable to plot site in ridge plot withOUT data plotted.will not plot anything if only one size is present, must be w/in range to not re-scale the plots on x-axis. Awkward hack, but works okay
+oysters2 <- oysters2 %>% add_row(site_name = "SF Marina", size_mm = 10)
+oysters2 <- oysters2 %>% add_row(site_name = "Horseshoe Bay", size_mm = 10)
+
+oysters3 <-oysters2 %>%
+  mutate(oysters2, site_name = as.factor(oysters2$site_name))
+ordered(
+  oysters2$site_name,
+  levels = c(
+    "SF Marina",
+    "Horseshoe Bay",
+    "Dunphy Park",
+    "Brickyard Park",
+    "RTC Beach",
+    "RTC Theater",
+    "RTC North Dock",
+    "Pt. Chauncey",
+    "Pt. Chauncey Beach S",
+    "Pt. Chauncey Beach N",
+    "Paradise Beach Park",
+    "Paradise Cay",
+    "San Quentin Beach",
+    "Starkweather Park",
+    "Pt. San Pablo",
+    "Pt. Orient N",
+    "Pt. Orient S",
+    "Pt. Molate",
+    "Keller Beach",
+    "Miller Knox"
+  )
+)
+
+# creates LIMPET size structure data sets for ridgeline plots
+
+limpets <- sizes1 %>%
+  filter(taxon == "Limpet") %>% 
+  select(site_name, size_mm)
+limpets2 <-limpets %>%
+  mutate(site_name = fct_reorder(site_name, size_mm))
+
+# IMPORTANT adds dummy variable to plot site in ridge plot withOUT data plotted.will not plot anything if only one size is present, must be w/in range to not re-scale the plots on x-axis. Awkward hack, but works okay
+limpets2 <- limpets2 %>% add_row(site_name = "Pt. Orient N", size_mm = 10)
+limpets2 <- limpets2 %>% add_row(site_name = "Pt. San Pablo", size_mm = 10)
+limpets2 <- limpets2 %>% add_row(site_name = "Starkweather Park", size_mm = 10)
+limpets2 <- limpets2 %>% add_row(site_name = "San Quentin Beach", size_mm = 10)
+limpets2 <- limpets2 %>% add_row(site_name = "Paradise Cay", size_mm = 10)
+limpets2 <- limpets2 %>% add_row(site_name = "Pt. Chauncey Beach S", size_mm = 10)
+limpets2 <- limpets2 %>% add_row(site_name = "Pt. Chauncey", size_mm = 10)
+
+
+limpets3 <-limpets2 %>%
+  mutate(limpets2, site_name = as.factor(limpets2$site_name))
+ordered(
+  limpets2$site_name,
+  levels = c(
+    "SF Marina",
+    "Horseshoe Bay",
+    "Dunphy Park",
+    "Brickyard Park",
+    "RTC Beach",
+    "RTC Theater",
+    "RTC North Dock",
+    "Pt. Chauncey",
+    "Pt. Chauncey Beach S",
+    "Pt. Chauncey Beach N",
+    "Paradise Beach Park",
+    "Paradise Cay",
+    "San Quentin Beach",
+    "Starkweather Park",
+    "Pt. San Pablo",
+    "Pt. Orient N",
+    "Pt. Orient S",
+    "Pt. Molate",
+    "Keller Beach",
+    "Miller Knox"
+  )
+)
+
+# creates BAY MUSSEL size structure data sets for ridgeline plots
+
+baymussels <- sizes1 %>%
+  filter(taxon == "Mytilus") %>% 
+  select(site_name, size_mm)
+baymussels2 <-baymussels %>%
+  mutate(site_name = fct_reorder(site_name, size_mm))
+
+# IMPORTANT adds dummy variable to plot site in ridge plot withOUT data plotted.will not plot anything if only one size is present, must be w/in range to not re-scale the plots on x-axis. Awkward hack, but works okay
+baymussels2 <- baymussels2 %>% add_row(site_name = "Pt. Orient N", size_mm = 10)
+
+
+baymussels3 <-baymussels2 %>%
+  mutate(baymussels2, site_name = as.factor(baymussels2$site_name))
+ordered(
+  baymussels2$site_name,
+  levels = c(
+    "SF Marina",
+    "Horseshoe Bay",
+    "Dunphy Park",
+    "Brickyard Park",
+    "RTC Beach",
+    "RTC Theater",
+    "RTC North Dock",
+    "Pt. Chauncey",
+    "Pt. Chauncey Beach S",
+    "Pt. Chauncey Beach N",
+    "Paradise Beach Park",
+    "Paradise Cay",
+    "San Quentin Beach",
+    "Starkweather Park",
+    "Pt. San Pablo",
+    "Pt. Orient N",
+    "Pt. Orient S",
+    "Pt. Molate",
+    "Keller Beach",
+    "Miller Knox"
+  )
+)
+
 
 ```
 
@@ -736,17 +863,22 @@ scat2
 
 
 ```{r}
-sizes2 <- sizes1 %>%
+oysters <- sizes1 %>%
   filter(taxon == "Oyster") %>% 
   select(site_name, size_mm)
-sizes3 <-sizes2 %>%
+oysters2 <-oysters %>%
   mutate(site_name = fct_reorder(site_name, size_mm))
+# add dummy variable to plot site in ridge plot
+oysters2 <- oysters2 %>% add_row(site_name = "SF Marina", size_mm = 10)
+oysters2 <- oysters2 %>% add_row(site_name = "Horseshoe Bay", size_mm = 10)
 
-sizes3 <-sizes2 %>%
-  mutate(sizes2, site_name = as.factor(sizes2$site_name))
+oysters3 <-oysters2 %>%
+  mutate(oysters2, site_name = as.factor(oysters2$site_name))
 ordered(
-  sizes2$site_name,
+  oysters2$site_name,
   levels = c(
+    "SF Marina",
+    "Horseshoe Bay",
     "Dunphy Park",
     "Brickyard Park",
     "RTC Beach",
@@ -770,20 +902,180 @@ ordered(
 ```
 
 
-```{r Fig.X, fig.width = 5, fig.height = 8,}
-sizes3 %>%   
-  ggplot(aes(y=site_name, x=size_mm,  fill=site_name)) +
-   geom_density_ridges(alpha=0.8, stat="binline", bins=10) +
-   theme_ridges() +
-     theme(
-         legend.position="none",
-         panel.spacing = unit(0.1, "lines"),
-         strip.text.x = element_text(size = 8)
-     ) +
-     xlab("") +
-     ylab("Assigned Probability (%)") 
-```
+```{r, fig.width = 6, fig.height = 10}
+
+sz_struct_oysters <- oysters3 %>%
+  mutate(
+    site_name = fct_relevel(
+      site_name,
+      levels = "Miller Knox",
+      "Keller Beach",
+      "Pt. Molate",
+      "Pt. Orient S",
+      "Pt. Orient N",
+      "Pt. San Pablo",
+      "Starkweather Park",
+      "San Quentin Beach",
+      "Paradise Cay",
+      "Paradise Beach Park",
+      "Pt. Chauncey Beach N",
+      "Pt. Chauncey Beach S",
+      "Pt. Chauncey",
+      "RTC North Dock",
+      "RTC Theater",
+      "RTC Beach",
+      "Brickyard Park",
+      "Dunphy Park",
+      "Horseshoe Bay",
+      "SF Marina"
+    )
+  ) %>%
+  
+ggplot(aes(y=site_name, x=size_mm, fill=site_name))+
+  geom_density_ridges(aes(point_color = site_name, point_fill = site_name),
+    alpha = .2, point_alpha = 1, jittered_points = TRUE
+  ) + theme_ridges()+
+  theme(legend.position="none", panel.spacing = unit(0.2, "lines"),
+ #         strip.text.x = element_text(size = 8)
+ )+
+  labs(x="", y="relative abundance")+
+  ggtitle("Oysters")+
+  theme(plot.title = element_text(hjust = 0.5))
+sz_struct_oysters
+  
+  
+  ## OTHER types of ridgeline and histogram plots##
+
+  # ggplot(aes(
+  #   y = site_name,
+  #   x = size_mm,
+  #   height = stat(density),
+  #   fill = site_name
+  # )) +
+  # geom_density_ridges(
+  #   alpha = 0.8,
+  #   stat = "binline",
+  #   bins = 15,
+  #   scale = 0.95,
+  #   draw_baseline = FALSE
+  # ) +
+  # theme_ridges(font_size = 12) +
+  # theme(
+  #   legend.position = "none",
+  #   panel.spacing = unit(0.1, "lines"),
+  #   strip.text.x = element_text(size = 8)
+  # ) +
+  # xlab("Size (mm)") +
+  # ylab("Relative Frequency (%)")+
+  # 
+
+# sz_struct_oysters
  
+ # ggplot(aes(y=site_name, x=size_mm,  fill=..x..)) +
+ #   geom_density_ridges_gradient(scale=2, rel_min_height = 0.01) +
+ #   scale_fill_viridis(name = "Size (mm)", option = "D") +
+ #   theme_ridges() +
+ #     theme(
+ #         legend.position="none",
+ #         panel.spacing = unit(0.1, "lines"),
+ #         strip.text.x = element_text(size = 8)
+ #     ) +
+ #     xlab("") +
+ #     ylab("Relative Abundance (%)") 
+ #   sz_struct_oysters
+
+
+ 
+```
+```{r, fig.width = 6, fig.height = 10}
+sz_struct_limpets <- limpets3 %>%
+  mutate(
+    site_name = fct_relevel(
+      site_name,
+      levels = "Miller Knox",
+      "Keller Beach",
+      "Pt. Molate",
+      "Pt. Orient S",
+      "Pt. Orient N",
+      "Pt. San Pablo",
+      "Starkweather Park",
+      "San Quentin Beach",
+      "Paradise Cay",
+      "Paradise Beach Park",
+      "Pt. Chauncey Beach N",
+      "Pt. Chauncey Beach S",
+      "Pt. Chauncey",
+      "RTC North Dock",
+      "RTC Theater",
+      "RTC Beach",
+      "Brickyard Park",
+      "Dunphy Park",
+      "Horseshoe Bay",
+      "SF Marina"
+    )
+  ) %>%
+  
+ggplot(aes(y=site_name, x=size_mm, fill=site_name))+
+  geom_density_ridges(aes(point_color = site_name, point_fill = site_name),
+    alpha = .2, point_alpha = 1, jittered_points = TRUE
+  ) + theme_ridges()+
+  theme(legend.position="none", panel.spacing = unit(0.2, "lines"),
+ #         strip.text.x = element_text(size = 8)
+ )+
+  labs(x="Size (mm)", y="")+
+  ggtitle("Limpets")+
+  theme(plot.title = element_text(hjust = 0.5))
+sz_struct_limpets
+```
+```{r, fig.width = 6, fig.height = 10}
+
+sz_struct_baymussels <- baymussels3 %>%
+  mutate(
+    site_name = fct_relevel(
+      site_name,
+      levels = "Miller Knox",
+      "Keller Beach",
+      "Pt. Molate",
+      "Pt. Orient S",
+      "Pt. Orient N",
+      "Pt. San Pablo",
+      "Starkweather Park",
+      "San Quentin Beach",
+      "Paradise Cay",
+      "Paradise Beach Park",
+      "Pt. Chauncey Beach N",
+      "Pt. Chauncey Beach S",
+      "Pt. Chauncey",
+      "RTC North Dock",
+      "RTC Theater",
+      "RTC Beach",
+      "Brickyard Park",
+      "Dunphy Park",
+      "Horseshoe Bay",
+      "SF Marina"
+    )
+  ) %>%
+  
+ggplot(aes(y=site_name, x=size_mm, fill=site_name))+
+  geom_density_ridges(aes(point_color = site_name, point_fill = site_name),
+    alpha = .2, point_alpha = 1, jittered_points = TRUE
+  ) + theme_ridges()+
+  theme(legend.position="none", panel.spacing = unit(0.2, "lines"),
+ #         strip.text.x = element_text(size = 8)
+ )+
+  labs(x="", y="")+
+  ggtitle("Bay Mussels")+
+  theme(plot.title = element_text(hjust = 0.5))
+sz_struct_baymussels
+```
+
+```{r Fig.6, fig.width = 10, fig.height = 10, fig.cap = " Size structure of oysters, bay mussels and limpets in mid and low intertidal at study sites."}
+
+ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct_limpets + rremove("y.text"), ncol=3, nrow=1, widths= c(1, 0.6, 0.6 ),align = "h")
+
+```
+
+
 
 ```{r, include=FALSE}
 ## save figure to output folder
