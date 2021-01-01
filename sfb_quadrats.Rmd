@@ -736,23 +736,54 @@ scat2
 
 
 ```{r}
-# Load dataset from github
+sizes2 <- sizes1 %>%
+  filter(taxon == "Oyster") %>% 
+  select(site_name, size_mm)
+sizes3 <-sizes2 %>%
+  mutate(site_name = fct_reorder(site_name, size_mm))
 
-
-# Plot
-sizes1 %>%
-  filter(taxon = "oyster")
-  ggplot(aes(y = sizes_mm, x = value,  fill = site_name)) +
-  geom_density_ridges(alpha = 0.6, stat = "binline", bins = 20) +
-  theme_ridges() +
-  theme(
-    legend.position = "none",
-    panel.spacing = unit(0.1, "lines"),
-    strip.text.x = element_text(size = 8)
-  ) +
-  xlab("") +
-  ylab("Assigned Probability (%)")
+sizes3 <-sizes2 %>%
+  mutate(sizes2, site_name = as.factor(sizes2$site_name))
+ordered(
+  sizes2$site_name,
+  levels = c(
+    "Dunphy Park",
+    "Brickyard Park",
+    "RTC Beach",
+    "RTC Theater",
+    "RTC North Dock",
+    "Pt. Chauncey",
+    "Pt. Chauncey Beach S",
+    "Pt. Chauncey Beach N",
+    "Paradise Beach Park",
+    "Paradise Cay",
+    "San Quentin Beach",
+    "Starkweather Park",
+    "Pt. San Pablo",
+    "Pt. Orient N",
+    "Pt. Orient S",
+    "Pt. Molate",
+    "Keller Beach",
+    "Miller Knox"
+  )
+)
 ```
+
+
+```{r Fig.X, fig.width = 5, fig.height = 8,}
+sizes3 %>%   
+  ggplot(aes(y=site_name, x=size_mm,  fill=site_name)) +
+   geom_density_ridges(alpha=0.8, stat="binline", bins=10) +
+   theme_ridges() +
+     theme(
+         legend.position="none",
+         panel.spacing = unit(0.1, "lines"),
+         strip.text.x = element_text(size = 8)
+     ) +
+     xlab("") +
+     ylab("Assigned Probability (%)") 
+```
+ 
 
 ```{r, include=FALSE}
 ## save figure to output folder
