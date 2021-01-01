@@ -80,11 +80,38 @@ sizes <- read_csv(here::here ("data","sfbay_rockweed_quadrat_invert_sizes.csv"),
 rqs <- mutate(rqs, date = as.POSIXct(rqs$date, tz = "America/Los_Angeles", format = "%m/%d/%Y")) 
 
 # Convert zone character variable to factor variable with ordered levels
-rqs <- mutate(rqs, zone = as.factor(rqs$zone)) 
-rqs$zone <- ordered(rqs$zone, levels = c("Low", "Mid", "High")) 
+rqs <- mutate(rqs, zone = as.factor(rqs$zone))
+ordered(rqs$zone, levels = c("Low", "Mid", "High"))
 
-rqs.loc$bay_perim_order = as.factor(rqs.loc$bay_perim_order)
-select(rqs.loc, -notes)
+#convert site names to ordered factor - ordered around bay perimeter from SF Marina to Miller Knox
+rqs <- rename(rqs, site_name = site)
+rqs <- mutate(rqs, site_name = as.factor(rqs$site_name))
+ordered(
+  rqs$site_name,
+  levels = c(
+    "SF Marina",
+    "Horseshoe Bay",
+    "Dunphy Park",
+    "Brickyard Park",
+    "RTC Beach",
+    "RTC Theater",
+    "RTC North Dock",
+    "Pt. Chauncey",
+    "Pt. Chauncey Beach S",
+    "Pt. Chauncey Beach N",
+    "Paradise Beach Park",
+    "Paradise Cay",
+    "San Quentin Beach",
+    "Starkweather Park",
+    "Pt. San Pablo",
+    "Pt. Orient N",
+    "Pt. Orient S",
+    "Pt. Molate",
+    "Keller Beach",
+    "Miller Knox"
+  )
+)
+
 
 # merges rqs and rqs.loc by site codes
 
@@ -96,15 +123,20 @@ rqs2
 rqs3 <- rqs2 %>% 
   mutate(RTC_sites = case_when(
         site_code %in% c("PBS", "PCR", "PCW", "PCB", "PCC", "RTCR", "RTCC", "RTCS", "SQB")  ~ "RTC",
-        site_code %in% c("SWR", "SFMS", "RRR", "POC", "POB", "PMB", "MKR", "KBB", "HCR", "DPR", "BPB")  ~ "other"),
-        .after = site
+        site_code %in% c("SWR", "SFMS", "RRR", "POC", "POB", "PMB", "MKR", "KBB", "HBR", "DPR", "BPB")  ~ "other"),
+        .after = site_name.x
   )%>%
   relocate(lat, .after = site_code)%>%
   relocate(long, .after = lat)%>%
-  relocate(bay_perim_order, .after = site_code)
+  relocate(bay_perim_order, .after = site_code) %>% 
+  mutate(bay_perim_order = as.factor(rqs3$bay_perim_order))
 
-rqs3 <- mutate(rqs3, RTC_sites = as.factor(rqs3$RTC_sites))
+
 rqs3$RTC_sites <- ordered(rqs3$RTC_sites, levels = c("RTC", "other")) 
+rqs3 <- rename(rqs3, site_name = site_name.x)
+rqs3 <- select(rqs3, -site_name.y)
+
+
 rqs3 
 
 # Creates site x zone summary data sets and merges with site type 
@@ -112,28 +144,37 @@ rqs3
 ## Mid zone
 
 rqs4 <- rqs3 %>%
-    filter(zone == "Mid") %>%
-    drop_na(fucus_pc, oyster_n) %>%
-    group_by(site_code) %>%                                                         # Specify group indicator
-    summarise(fucus_pc_avg = mean(fucus_pc), oyster_n_avg = mean(oyster_n))         # Specify column, function, and new name
+  filter(zone == "Mid") %>%
+  drop_na(fucus_pc, oyster_n) %>%
+  group_by(site_code) %>%                                                          # Specify group indicator
+  summarise(
+    fucus_pc_avg = mean(fucus_pc),
+    oyster_n_avg = mean(oyster_n),
+    .groups = "keep"
+  )                                                                                # Specify column, function, and new name
 rqs4
 
 rqs5 <- full_join(rqs4, rqs.loc, by = "site_code")
 rqs5 <- rqs5 %>%
-  select(site_code, fucus_pc_avg, oyster_n_avg, site_type)
+  select(site_code, fucus_pc_avg, oyster_n_avg, site_type, site_type2)
 rqs5
 
 ##Low zone
 
 rqs6 <- rqs3 %>%
-    filter(zone == "Low") %>%
-    drop_na(fucus_pc, oyster_n) %>%
-    group_by(site_code) %>%                                                         # Specify group indicator
-    summarise(fucus_pc_avg = mean(fucus_pc), oyster_n_avg = mean(oyster_n))         # Specify column, function, and new name
+  filter(zone == "Low") %>%
+  drop_na(fucus_pc, oyster_n) %>%
+  group_by(site_code) %>%                                                         # Specify group indicator
+  summarise(
+    fucus_pc_avg = mean(fucus_pc),
+    oyster_n_avg = mean(oyster_n),
+    .groups = "keep"
+  )                                                                              # Specify column, function, and new name
 rqs6
+
 rqs7 <- full_join(rqs6, rqs.loc, by = "site_code")
 rqs7 <- rqs7 %>%
-  select(site_code, fucus_pc_avg, oyster_n_avg, site_type)
+  select(site_code, fucus_pc_avg, oyster_n_avg, site_type, site_type2)
 rqs7
 
 #sizes
@@ -172,7 +213,7 @@ ordered(
 # Plots of quadrat data from each transect {#anchor}
 
 
-```{r fucus x zone, include=TRUE, fig.width = 9, fig.height = 6}
+```{r fucus x zone, include=TRUE, fig.width = 6, fig.height = 5}
 
 # Mid + low zone Fucus cover x site, ordered around SFBay perimeter
 
@@ -190,30 +231,33 @@ fucus_p1 <- rqs3 %>%
     hjust = 1
   )) +
   scale_x_discrete(
-    breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20),
-    labels = c(
-      "SF Marina",
-      "Horseshoe Bay",
-      "Dunphy Park",
-      "Brickyard Park",
-      "RTC Beach",
-      "RTC Theater",
-      "RTC North Dock",
-      "Pt. Chauncey",
-      "Pt. Chauncey Beach S",
-      "Pt. Chauncey Beach N",
-      "Paradise Beach Park",
-      "Paradise Cay",
-      "San Quentin Beach",
-      "Starkweather Park",
-      "Pt. San Pablo",
-      "Pt. Orient N",
-      "Pt. Orient S",
-      "Pt. Molate",
-      "Keller Beach",
-      "Miller Knox"
-    )
+  breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20),
+  labels = c(
+    "SF Marina",
+    "Horseshoe Bay",
+    "Dunphy Park",
+    "Brickyard Park",
+    "RTC Beach",
+    "RTC Theater",
+    "RTC North Dock",
+    "Pt. Chauncey",
+    "Pt. Chauncey Beach S",
+    "Pt. Chauncey Beach N",
+    "Paradise Beach Park",
+    "Paradise Cay",
+    "San Quentin Beach",
+    "Starkweather Park",
+    "Pt. San Pablo",
+    "Pt. Orient N",
+    "Pt. Orient S",
+    "Pt. Molate",
+    "Keller Beach",
+    "Miller Knox"
   )
+  ) +
+  
+  labs(x = NULL,  y = expression(paste(italic(" Fucus distichus"), " cover (%)"))) 
+
 
 fucus_p1
 
@@ -222,7 +266,7 @@ fucus_p1
 
 
 
-```{r fucus mid, include=FALSE}
+```{r fucus mid, include=TRUE}
 
 #Mid zone Fucus cover x site, ordered around SFBay perimeter, highlighting RTC sites
 
@@ -237,7 +281,7 @@ fucus_p2 <- rqs3 %>%
                jitter.width = 1,
                seed = 7
              )) +
-  scale_fill_manual(values = c("darkolivegreen4", "light grey")) +
+  scale_fill_manual(values = c("darkolivegreen4", "light grey"), drop=FALSE) +
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -268,7 +312,8 @@ fucus_p2 <- rqs3 %>%
       "Pt. Molate",
       "Keller Beach",
       "Miller Knox"
-    )
+    ),
+    drop=FALSE
   ) +
   labs(x = NULL,  y = expression(paste(italic(" Fucus distichus"), " cover (%)"))) +
   ggtitle("Mid Zone")
@@ -277,7 +322,7 @@ fucus_p2
 
 ```
 
-```{r fucus low, include=FALSE}
+```{r fucus low, include=TRUE}
 
 #Low zone Fucus cover x site, ordered around SFBay perimeter, highlighting RTC sites
 
@@ -292,7 +337,7 @@ fucus_p3 <- rqs3 %>%
                jitter.width = 1,
                seed = 7
              )) +
-  scale_fill_manual(values = c("darkolivegreen4", "light grey")) +
+  scale_fill_manual(values = c("darkolivegreen4", "light grey"), drop=FALSE) +   
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -323,7 +368,8 @@ fucus_p3 <- rqs3 %>%
       "Pt. Molate",
       "Keller Beach",
       "Miller Knox"
-    )
+    ),
+    drop=FALSE
   ) +
   labs(x = NULL,  y = expression(paste(italic(" Fucus distichus"), " cover (%)"))) +
   ggtitle("Low Zone")
@@ -331,14 +377,14 @@ fucus_p3 <- rqs3 %>%
 fucus_p3 
 ```
 
-```{r fucus mid sitetype, include=FALSE}
+```{r fucus mid sitetype, include=TRUE}
 
 #Mid zone Fucus cover x sitetype
 
 fucus_p4 <- rqs5 %>%
-  filter(site_type != "blocks") %>%
-  filter(site_type != "seawall") %>%
-  ggplot (aes(x = site_type, y = fucus_pc_avg, fill = site_type)) +
+  filter(site_type2 != "blocks") %>%
+  filter(site_type2 != "seawall" ) %>%
+  ggplot (aes(x = site_type2, y = fucus_pc_avg, fill=site_type2)) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(pch = 21,
              position = position_jitterdodge(
@@ -360,15 +406,15 @@ fucus_p4 <- rqs5 %>%
 fucus_p4 
 ```
 
-```{r fucus low sitetype, include=FALSE}
+```{r fucus low sitetype, include=true}
 
 #Low zone Fucus cover x sitetype
 
 fucus_p5 <- rqs7 %>%
-  filter(site_type != "blocks") %>%
-  filter(site_type != "seawall") %>%
+  filter(site_type2 != "blocks") %>%
+  filter(site_type2 != "seawall") %>%
   drop_na(fucus_pc_avg) %>%
-  ggplot (aes(x = site_type, y = fucus_pc_avg, fill = site_type)) +
+  ggplot (aes(x = site_type2, y = fucus_pc_avg, fill = site_type2)) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(pch = 21,
              position = position_jitterdodge(
@@ -443,7 +489,7 @@ oysters_p1 <- rqs3 %>%
   oysters_p1
 ```
 
-```{r ostrea mid, include=FALSE}
+```{r ostrea mid, include=TRUE}
 
 #Mid zone native oyster density (no. per m2) x site, ordered around SFBay perimeter, highlighting RTC sites
 
@@ -462,7 +508,7 @@ oysters_p2 <- rqs3 %>%
                jitter.width = 1,
                seed = 7
              )) +
-  scale_fill_manual(values = c("coral", "light grey")) +
+  scale_fill_manual(values = c("coral", "light grey"), drop=FALSE) +
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -493,7 +539,8 @@ oysters_p2 <- rqs3 %>%
       "Pt. Molate",
       "Keller Beach",
       "Miller Knox"
-    )
+    ),
+    drop=FALSE
   ) +
   labs(x = NULL,  y = expression(paste(
     italic("Ostrea lurida "), "abundance ", " (no. ",  m ^ -2, ")"
@@ -504,7 +551,7 @@ oysters_p2
 
 ```
 
-```{r ostrea low, include=FALSE}
+```{r ostrea low, include=TRUE}
 
 #Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter, highlighting RTC sites
 
@@ -523,7 +570,7 @@ oysters_p3 <- rqs3 %>%
                jitter.width = 1,
                seed = 7
              )) +
-  scale_fill_manual(values = c("coral", "light grey")) +
+  scale_fill_manual(values = c("coral", "light grey"), drop=FALSE) +
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -554,7 +601,8 @@ oysters_p3 <- rqs3 %>%
       "Pt. Molate",
       "Keller Beach",
       "Miller Knox"
-    )
+    ),
+    drop=FALSE
   ) +
   labs(x = NULL,  y = expression(paste(
     italic("Ostrea lurida "), "abundance ", " (no. ",  m ^ -2, ")"
@@ -564,15 +612,15 @@ oysters_p3 <- rqs3 %>%
 oysters_p3
 ```
 
-```{r ostrea mid sitetype, include=FALSE}
+```{r ostrea mid sitetype, include=TRUE}
 
 #Mid zone native oyster density (no. per m2) x sitetype
 
 oyster_p4 <- rqs5 %>%
-  filter(site_type != "blocks") %>%
-  filter(site_type != "seawall") %>%
+  filter(site_type2 != "blocks") %>%
+  filter(site_type2 != "seawall") %>%
   drop_na(oyster_n_avg) %>%
-  ggplot (aes(x = site_type, y = oyster_n_avg * 4, fill = site_type)) +
+  ggplot (aes(x = site_type2, y = oyster_n_avg * 4, fill = site_type2)) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(pch = 21,
              position = position_jitterdodge(
@@ -597,15 +645,15 @@ oyster_p4
 ```
 
 
-```{r ostrea low sitetype, include=FALSE}
+```{r ostrea low sitetype, include=TRUE}
 
 #Low zone oyster density (no. per m2) x sitetype
 
 oyster_p5 <- rqs7 %>%
-  filter(site_type != "blocks") %>%
-  filter(site_type != "seawall") %>%
+  filter(site_type2 != "blocks") %>%
+  filter(site_type2 != "seawall") %>%
   drop_na(oyster_n_avg) %>%
-  ggplot (aes(x = site_type, y = oyster_n_avg * 4, fill = site_type)) +
+  ggplot (aes(x = site_type2, y = oyster_n_avg * 4, fill = site_type2)) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(pch = 21,
              position = position_jitterdodge(
@@ -633,7 +681,7 @@ oyster_p5
 
 ```{r Fig.1, fig.width = 6, fig.height = 8, fig.cap = " Rockweed (Fucus distichus) cover in the mid and low intertidal at survey sites. Colored fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus."}
 
-ggarrange(fucus_p2 + rremove("x.text"), fucus_p3, ncol=1, nrow=2,heights= c(0.75, 1), align = "v")
+ggarrange(fucus_p2, fucus_p3, ncol=1, nrow=2,heights= c(1, 1), align = "v")
 
 ```
 ## Native oyster, *Ostrea lurida*
@@ -692,9 +740,9 @@ scat2
 
 
 # Plot
-sizes %>%
-  mutate(text = fct_reorder(text, value)) %>%
-  ggplot(aes(y = text, x = value,  fill = text)) +
+sizes1 %>%
+  filter(taxon = "oyster")
+  ggplot(aes(y = sizes_mm, x = value,  fill = site_name)) +
   geom_density_ridges(alpha = 0.6, stat = "binline", bins = 20) +
   theme_ridges() +
   theme(
