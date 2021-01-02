@@ -2,7 +2,8 @@
 title: "SFBay Rocky Shore Survey analyses"
 author: "Karina J. Nielsen"
 date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
-output: bookdown::html_document2
+output:
+   bookdown::html_document2: default
 ---
 
 ```{r setup, include=FALSE}
@@ -20,7 +21,6 @@ knitr::opts_chunk$set(
 #cache = TRUE saves output results of all chunks so that they do not ned to be rerun
 
 ```
-
 
 ```{r library, include=FALSE}
 library("easypackages")
@@ -53,13 +53,11 @@ renv::snapshot()
 
 ```
 
-
 ```{r here, include=FALSE}
 
 ## Confirm working directory for project
 here::here() # use this to work with sub-directories less awkwardly and share projects across users/machines more easily.
 ```
-
 
 
 ```{r read, message=FALSE}
@@ -337,9 +335,7 @@ ordered(
 
 ```
 
-# Plots of quadrat data from each transect {#anchor}
-
-
+# Dataviz of sfbay quadrat surveys
 ```{r fucus x zone, include=FALSE, fig.width = 6, fig.height = 5}
 
 # Mid + low zone Fucus cover x site, ordered around SFBay perimeter
@@ -389,9 +385,6 @@ fucus_p1 <- rqs3 %>%
 fucus_p1
 
 ```
-
-
-
 
 ```{r fucus mid, include=FALSE}
 
@@ -563,7 +556,6 @@ fucus_p5 <- rqs7 %>%
 
 fucus_p5 
 ```
-
 
 ```{r ostrea x zone, include=FALSE, fig.width = 9, fig.height = 6}
 
@@ -771,7 +763,6 @@ oyster_p4 <- rqs5 %>%
 oyster_p4 
 ```
 
-
 ```{r ostrea low sitetype, include=FALSE}
 
 #Low zone oyster density (no. per m2) x sitetype
@@ -805,34 +796,25 @@ oyster_p5 <- rqs7 %>%
 oyster_p5 
 ```
 ## Rockweed, *Fucus distichus*
-
-```{r Fig.1, fig.width = 6, fig.height = 8, fig.cap = " Rockweed (Fucus distichus) cover in the mid and low intertidal at survey sites. Colored fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus."}
+```{r rockweed-by-zone-site-fig, fig.cap = " Rockweed (Fucus distichus) cover in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.", fig.width = 6, fig.height = 8}
 
 ggarrange(fucus_p2, fucus_p3, ncol=1, nrow=2,heights= c(1, 1), align = "v")
-
 ```
 ## Native oyster, *Ostrea lurida*
-
-```{r Fig.2, fig.width = 6, fig.height = 8, fig.cap = " Native oyster (Ostrea lurida) abundance in the mid and low intertidal at survey sites. Colored fill indicates reference sites used for nature-based restoration and climate adaptation planning at the SF State Romberg Tiburon Campus."}
+```{r oysters-by-zone-site-fig, fig.cap = " Native oyster (Ostrea lurida) abundance in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.", fig.width = 6, fig.height = 8}
 
 ggarrange(oysters_p2 + rremove("x.text"), oysters_p3, ncol=1, nrow=2,heights= c(0.75, 1), align = "v")
-
 ```
 ## Rockweed by site type and zone
-```{r Fig.3, fig.width = 4, fig.height = 6, fig.cap = " Cover of rockweed (Fucus distichus) in the mid and low intertidal by site type."}
+```{r fucus-sitetype-zone-fig, fig.cap = " Cover of rockweed (Fucus distichus) in the mid and low intertidal by site type.", fig.width = 4, fig.height = 6}
 
 ggarrange(fucus_p4 + rremove("x.text"), fucus_p5, ncol=1, nrow=2,heights= c(0.5, 0.55), align = "v")
-
 ```
 ## Oysters by site type and zone
-
-```{r Fig.4, fig.width = 4, fig.height = 6, fig.cap = " Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type."}
+```{r oysters-sitetype-zone-fig, fig.cap = " Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type.", fig.width = 4, fig.height = 6}
 
 ggarrange(oyster_p4 + rremove("x.text"), oyster_p5, ncol=1, nrow=2,heights= c(0.5, 0.55), align = "v")
-
 ```
-
-
 
 ```{r, include=FALSE}
 scat1 <- rqs3 %>%
@@ -843,10 +825,9 @@ scat1 <- rqs3 %>%
   theme_few()
 
 scat1
-
 ```
 ## Oyster scars vs. oysters colored by site
-```{r Fig.5, fig.width = 10, fig.height = 4, fig.cap = " Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type."}
+```{r oyster-scar-plot, fig.cap = " Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type.", fig.width = 10, fig.height = 4}
 scat2 <- rqs3 %>%
   drop_na(oyster_n, oyster_scar_n) %>%
   filter(zone != "High") %>% 
@@ -859,8 +840,6 @@ scat2 <- rqs3 %>%
 
 scat2
 ```
-
-
 ```{r, include=FALSE, fig.width = 6, fig.height = 10}
 
 sz_struct_oysters <- oysters3 %>%
@@ -1030,13 +1009,10 @@ ggplot(aes(y=site_name, x=size_mm, fill=site_name))+
 sz_struct_baymussels
 ```
 ## Size structure of oysters, mussels, and limpets by site
-```{r Fig.6, message=FALSE, fig.width = 10, fig.height = 10, fig.cap = " Size structure of oysters, bay mussels and limpets in mid and low intertidal at study sites."}
+```{r size-structure-plot, fig.cap = " Size structure of oysters, bay mussels and limpets in mid and low intertidal at study sites.", message=FALSE, fig.width = 10, fig.height = 10}
 
 ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct_limpets + rremove("y.text"), ncol=3, nrow=1, widths= c(1, 0.6, 0.6 ),align = "h")
-
 ```
-
-
 
 ```{r, include=FALSE}
 ## save figure to output folder
