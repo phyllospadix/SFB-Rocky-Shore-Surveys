@@ -798,12 +798,12 @@ oyster_p5
 ## Rockweed, *Fucus distichus*
 ```{r rockweed-by-zone-site-fig, fig.cap = " Rockweed (Fucus distichus) cover in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.", fig.width = 6, fig.height = 8}
 
-ggarrange(fucus_p2, fucus_p3, ncol=1, nrow=2,heights= c(1, 1), align = "v")
+ggarrange(fucus_p2 + rremove("x.text"), fucus_p3, ncol=1, nrow=2,heights= c(0.7, 1), align = "v")
 ```
 ## Native oyster, *Ostrea lurida*
 ```{r oysters-by-zone-site-fig, fig.cap = " Native oyster (Ostrea lurida) abundance in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.", fig.width = 6, fig.height = 8}
 
-ggarrange(oysters_p2 + rremove("x.text"), oysters_p3, ncol=1, nrow=2,heights= c(0.75, 1), align = "v")
+ggarrange(oysters_p2 + rremove("x.text"), oysters_p3, ncol=1, nrow=2,heights= c(0.7, 1), align = "v")
 ```
 ## Rockweed by site type and zone
 ```{r fucus-sitetype-zone-fig, fig.cap = " Cover of rockweed (Fucus distichus) in the mid and low intertidal by site type.", fig.width = 4, fig.height = 6}
@@ -959,7 +959,7 @@ ggplot(aes(y=site_name, x=size_mm, fill=site_name))+
     alpha = .2, point_alpha = 1, jittered_points = TRUE
   ) + theme_ridges()+
   theme(legend.position="none", panel.spacing = unit(0.2, "lines"),
- #         strip.text.x = element_text(size = 8)
+         # strip.text.x = element_text(size = 8)
  )+
   labs(x="Size (mm)", y="")+
   ggtitle("Limpets")+
@@ -1011,7 +1011,7 @@ sz_struct_baymussels
 ## Size structure of oysters, mussels, and limpets by site
 ```{r size-structure-plot, fig.cap = " Size structure of oysters, bay mussels and limpets in mid and low intertidal at study sites.", message=FALSE, fig.width = 10, fig.height = 10}
 
-ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct_limpets + rremove("y.text"), ncol=3, nrow=1, widths= c(1, 0.6, 0.6 ),align = "h")
+ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct_limpets + rremove("y.text"), ncol=3, nrow=1, widths= c(1, 0.6, 0.6 ), align = "h")
 ```
 
 ```{r, include=FALSE}
