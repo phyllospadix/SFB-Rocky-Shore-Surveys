@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 ```{r library, include=FALSE}
 library("easypackages")
-my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex", "bookdown", "ggpubr", "wesanderson", "pals", "ggridges", "hrbrthemes", "virdis") 
+my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex", "bookdown", "ggpubr", "wesanderson", "pals", "ggridges", "hrbrthemes", "viridis") 
 libraries(my_packages)
 
 # Install packages if needed
@@ -129,7 +129,7 @@ rqs3 <- rqs2 %>%
   relocate(lat, .after = site_code)%>%
   relocate(long, .after = lat)%>%
   relocate(bay_perim_order, .after = site_code) %>% 
-  mutate(bay_perim_order = as.factor(rqs3$bay_perim_order))
+  mutate(bay_perim_order = as.factor(bay_perim_order))
 
 
 rqs3$RTC_sites <- ordered(rqs3$RTC_sites, levels = c("RTC", "other")) 
@@ -340,7 +340,7 @@ ordered(
 # Plots of quadrat data from each transect {#anchor}
 
 
-```{r fucus x zone, include=TRUE, fig.width = 6, fig.height = 5}
+```{r fucus x zone, include=FALSE, fig.width = 6, fig.height = 5}
 
 # Mid + low zone Fucus cover x site, ordered around SFBay perimeter
 
@@ -393,7 +393,7 @@ fucus_p1
 
 
 
-```{r fucus mid, include=TRUE}
+```{r fucus mid, include=FALSE}
 
 #Mid zone Fucus cover x site, ordered around SFBay perimeter, highlighting RTC sites
 
@@ -449,7 +449,7 @@ fucus_p2
 
 ```
 
-```{r fucus low, include=TRUE}
+```{r fucus low, include=FALSE}
 
 #Low zone Fucus cover x site, ordered around SFBay perimeter, highlighting RTC sites
 
@@ -504,7 +504,7 @@ fucus_p3 <- rqs3 %>%
 fucus_p3 
 ```
 
-```{r fucus mid sitetype, include=TRUE}
+```{r fucus mid sitetype, include=FALSE}
 
 #Mid zone Fucus cover x sitetype
 
@@ -533,7 +533,7 @@ fucus_p4 <- rqs5 %>%
 fucus_p4 
 ```
 
-```{r fucus low sitetype, include=true}
+```{r fucus low sitetype, include=FALSE}
 
 #Low zone Fucus cover x sitetype
 
@@ -565,7 +565,7 @@ fucus_p5
 ```
 
 
-```{r ostrea x zone, include=TRUE, fig.width = 9, fig.height = 6}
+```{r ostrea x zone, include=FALSE, fig.width = 9, fig.height = 6}
 
 #Mid + Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter
 
@@ -616,7 +616,7 @@ oysters_p1 <- rqs3 %>%
   oysters_p1
 ```
 
-```{r ostrea mid, include=TRUE}
+```{r ostrea mid, include=FALSE}
 
 #Mid zone native oyster density (no. per m2) x site, ordered around SFBay perimeter, highlighting RTC sites
 
@@ -678,7 +678,7 @@ oysters_p2
 
 ```
 
-```{r ostrea low, include=TRUE}
+```{r ostrea low, include=FALSE}
 
 #Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter, highlighting RTC sites
 
@@ -739,7 +739,7 @@ oysters_p3 <- rqs3 %>%
 oysters_p3
 ```
 
-```{r ostrea mid sitetype, include=TRUE}
+```{r ostrea mid sitetype, include=FALSE}
 
 #Mid zone native oyster density (no. per m2) x sitetype
 
@@ -772,7 +772,7 @@ oyster_p4
 ```
 
 
-```{r ostrea low sitetype, include=TRUE}
+```{r ostrea low sitetype, include=FALSE}
 
 #Low zone oyster density (no. per m2) x sitetype
 
@@ -818,12 +818,13 @@ ggarrange(fucus_p2, fucus_p3, ncol=1, nrow=2,heights= c(1, 1), align = "v")
 ggarrange(oysters_p2 + rremove("x.text"), oysters_p3, ncol=1, nrow=2,heights= c(0.75, 1), align = "v")
 
 ```
-## Rockweed + native oysters by site type and zone
+## Rockweed by site type and zone
 ```{r Fig.3, fig.width = 4, fig.height = 6, fig.cap = " Cover of rockweed (Fucus distichus) in the mid and low intertidal by site type."}
 
 ggarrange(fucus_p4 + rremove("x.text"), fucus_p5, ncol=1, nrow=2,heights= c(0.5, 0.55), align = "v")
 
 ```
+## Oysters by site type and zone
 
 ```{r Fig.4, fig.width = 4, fig.height = 6, fig.cap = " Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type."}
 
@@ -831,11 +832,9 @@ ggarrange(oyster_p4 + rremove("x.text"), oyster_p5, ncol=1, nrow=2,heights= c(0.
 
 ```
 
-```{r, include=TRUE}
-```
 
 
-```{r, include=TRUE}
+```{r, include=FALSE}
 scat1 <- rqs3 %>%
   drop_na(fucus_pc, oyster_n) %>%
   filter(zone != "High") %>% 
@@ -846,7 +845,7 @@ scat1 <- rqs3 %>%
 scat1
 
 ```
-
+## Oyster scars vs. oysters colored by site
 ```{r Fig.5, fig.width = 10, fig.height = 4, fig.cap = " Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type."}
 scat2 <- rqs3 %>%
   drop_na(oyster_n, oyster_scar_n) %>%
@@ -862,47 +861,7 @@ scat2
 ```
 
 
-```{r}
-oysters <- sizes1 %>%
-  filter(taxon == "Oyster") %>% 
-  select(site_name, size_mm)
-oysters2 <-oysters %>%
-  mutate(site_name = fct_reorder(site_name, size_mm))
-# add dummy variable to plot site in ridge plot
-oysters2 <- oysters2 %>% add_row(site_name = "SF Marina", size_mm = 10)
-oysters2 <- oysters2 %>% add_row(site_name = "Horseshoe Bay", size_mm = 10)
-
-oysters3 <-oysters2 %>%
-  mutate(oysters2, site_name = as.factor(oysters2$site_name))
-ordered(
-  oysters2$site_name,
-  levels = c(
-    "SF Marina",
-    "Horseshoe Bay",
-    "Dunphy Park",
-    "Brickyard Park",
-    "RTC Beach",
-    "RTC Theater",
-    "RTC North Dock",
-    "Pt. Chauncey",
-    "Pt. Chauncey Beach S",
-    "Pt. Chauncey Beach N",
-    "Paradise Beach Park",
-    "Paradise Cay",
-    "San Quentin Beach",
-    "Starkweather Park",
-    "Pt. San Pablo",
-    "Pt. Orient N",
-    "Pt. Orient S",
-    "Pt. Molate",
-    "Keller Beach",
-    "Miller Knox"
-  )
-)
-```
-
-
-```{r, fig.width = 6, fig.height = 10}
+```{r, include=FALSE, fig.width = 6, fig.height = 10}
 
 sz_struct_oysters <- oysters3 %>%
   mutate(
@@ -987,7 +946,8 @@ sz_struct_oysters
 
  
 ```
-```{r, fig.width = 6, fig.height = 10}
+
+```{r, include=FALSE, fig.width = 6, fig.height = 10}
 sz_struct_limpets <- limpets3 %>%
   mutate(
     site_name = fct_relevel(
@@ -1027,7 +987,8 @@ ggplot(aes(y=site_name, x=size_mm, fill=site_name))+
   theme(plot.title = element_text(hjust = 0.5))
 sz_struct_limpets
 ```
-```{r, fig.width = 6, fig.height = 10}
+
+```{r, include=FALSE, fig.width = 6, fig.height = 10}
 
 sz_struct_baymussels <- baymussels3 %>%
   mutate(
@@ -1068,8 +1029,8 @@ ggplot(aes(y=site_name, x=size_mm, fill=site_name))+
   theme(plot.title = element_text(hjust = 0.5))
 sz_struct_baymussels
 ```
-
-```{r Fig.6, fig.width = 10, fig.height = 10, fig.cap = " Size structure of oysters, bay mussels and limpets in mid and low intertidal at study sites."}
+## Size structure of oysters, mussels, and limpets by site
+```{r Fig.6, message=FALSE, fig.width = 10, fig.height = 10, fig.cap = " Size structure of oysters, bay mussels and limpets in mid and low intertidal at study sites."}
 
 ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct_limpets + rremove("y.text"), ncol=3, nrow=1, widths= c(1, 0.6, 0.6 ),align = "h")
 
