@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 
 # echo = FALSE means code will not print, by default
-#cache = TRUE saves output results of all chunks so that they do not ned to be rerun
+#cache = TRUE saves output results of all chunks so that they do not need to be rerun
 
 ```
 
@@ -64,13 +64,13 @@ here::here() # use this to work with sub-directories less awkwardly and share pr
 ##Reads in *.csv data files to tibbles and keeps first row as column names
 
 rqs <- read_csv(here::here ("data","sfbay_rockweed_quadrat_surveys.csv"), col_names = TRUE) 
-
 rqs.loc <- read_csv(here::here ("data","sfbay_rockweed_site_names_locations.csv"), col_names = TRUE) 
-
 sizes <- read_csv(here::here ("data","sfbay_rockweed_quadrat_invert_sizes.csv"), col_names = TRUE)
-
+rich <- read_csv(here::here ("data","sfbay_richness_site_sum.csv"), col_names = TRUE)
+phys <- read_csv(here::here ("data","sfbay_physical_site_sum.csv"), col_names = TRUE)
 
 ```
+
 
 ```{r wrangle, include=FALSE}
 
@@ -333,6 +333,18 @@ ordered(
 )
 
 
+rich2 <- full_join(rich, rqs.loc, by = "site_code")
+
+rich2 <- rich2 %>% 
+  mutate(RTC_sites = case_when(
+        site_code %in% c("PBS", "PCR", "PCW", "PCB", "PCC", "RTCR", "RTCC", "RTCS", "SQB")  ~ "RTC",
+        site_code %in% c("SWR", "SFMS", "RRR", "POC", "POB", "PMB", "MKR", "KBB", "HBR", "DPR", "BPB")  ~ "other")
+  )%>%
+  mutate(bay_perim_order = as.factor(bay_perim_order))%>%
+  mutate(RTC_sites = as.factor(RTC_sites))
+
+rich2 <- full_join(rich2, phys, by = "site_code")
+
 ```
 
 # Dataviz of sfbay quadrat surveys
@@ -506,7 +518,7 @@ fucus_p4 <- rqs5 %>%
   filter(site_type2 != "seawall" ) %>%
   ggplot (aes(x = site_type2, y = fucus_pc_avg, fill=site_type2)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(pch = 21,
+  geom_point(pch = 21,size = 3,
              position = position_jitterdodge(
                jitter.height = 0.1,
                jitter.width = 0.1,
@@ -536,7 +548,7 @@ fucus_p5 <- rqs7 %>%
   drop_na(fucus_pc_avg) %>%
   ggplot (aes(x = site_type2, y = fucus_pc_avg, fill = site_type2)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(pch = 21,
+  geom_point(pch = 21,size = 3,
              position = position_jitterdodge(
                jitter.height = 0.1,
                jitter.width = 0.5,
@@ -741,7 +753,7 @@ oyster_p4 <- rqs5 %>%
   drop_na(oyster_n_avg) %>%
   ggplot (aes(x = site_type2, y = oyster_n_avg * 4, fill = site_type2)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(pch = 21,
+  geom_point(pch = 21, size = 3,
              position = position_jitterdodge(
                jitter.height = 0.5,
                jitter.width = 0.5,
@@ -773,7 +785,7 @@ oyster_p5 <- rqs7 %>%
   drop_na(oyster_n_avg) %>%
   ggplot (aes(x = site_type2, y = oyster_n_avg * 4, fill = site_type2)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(pch = 21,
+  geom_point(pch = 21,size = 3,
              position = position_jitterdodge(
                jitter.height = 0.5,
                jitter.width = 0.5,
@@ -1013,6 +1025,192 @@ sz_struct_baymussels
 
 ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct_limpets + rremove("y.text"), ncol=3, nrow=1, widths= c(1, 0.6, 0.6 ), align = "h")
 ```
+# Dataviz of sfbay transect surveys
+## Biodiversity: Richness(S)  
+```{r biodiversity RTC, fig.cap = " Species richness by site (from transect data only).", message=FALSE, fig.width = 6, fig.height = 5}
+
+biodiv1 <- ggplot(rich2, aes(x=bay_perim_order, y=S, fill=RTC_sites)) + 
+  geom_bar(stat = "identity", color="dark grey")+
+  scale_fill_manual(values = c("grey95", "thistle3"))+ 
+  theme_few() +
+  theme(legend.position = "none") +
+  theme(axis.text.x = element_text(
+    angle = 90,
+    vjust = 0.5,
+    hjust = 1
+  )) +
+  scale_x_discrete(
+    breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20),
+    labels = c(
+      "SF Marina",
+      "Horseshoe Bay",
+      "Dunphy Park",
+      "Brickyard Park",
+      "RTC Beach",
+      "RTC Theater",
+      "RTC North Dock",
+      "Pt. Chauncey",
+      "Pt. Chauncey Beach S",
+      "Pt. Chauncey Beach N",
+      "Paradise Beach Park",
+      "Paradise Cay",
+      "San Quentin Beach",
+      "Starkweather Park",
+      "Pt. San Pablo",
+      "Pt. Orient N",
+      "Pt. Orient S",
+      "Pt. Molate",
+      "Keller Beach",
+      "Miller Knox"
+    ),
+    drop=FALSE
+  ) +
+  labs(x = NULL,  y = "S") +
+  ggtitle("Biodiversity")
+
+biodiv1
+
+```
+
+## Taxonomic richness by site type
+```{r, Tax-rich-type, include=TRUE, fig.width = 6, fig.height = 5}
+#Transect level richness x sitetype
+
+Stype <- rich2 %>%
+  filter(site_type2 != "blocks") %>%
+  #filter(site_type2 != "seawall") %>%
+ # drop_na(oyster_n_avg) %>%
+  ggplot (aes(x = site_type2, y = S * 4, fill = site_type2)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch = 21, size =3,
+             position = position_jitterdodge(
+               jitter.height = 0.5,
+               jitter.width = 0.5,
+               seed = 7
+             )) +
+  scale_fill_brewer(palette = "Set3") +
+  theme_few() +
+  theme(legend.position = "none") +
+  theme(axis.text.x = element_text(
+    angle = 0,
+    vjust = 0.5,
+    hjust = 0.5
+  )) +
+  labs(x = NULL,  y = expression(paste(
+    "S")
+  )) +
+  ggtitle("S by Site Type")
+
+Stype 
+```
+
+
+
+## Species richness vs. intertidal width
+```{r. rich-width-plot, include=FALSE, fig.width = 6, fig.height = 5}
+
+Swidth <- rich2 %>%
+#filter(site_type2 != "seawall") %>%
+ggplot (aes(x = width_avg_m, y = S, color = site_type2, shape=RTC_sites)) +
+geom_point(size = 4) +
+theme_few()+
+guides(col = guide_legend(ncol = 1))
+  
+Swidth
+
+```
+
+```{r rich-width-fit plot, include=FALSE, fig.width = 6, fig.height = 5}
+Swidth2 <- rich2 %>%
+#filter(site_type2 != "seawall") %>%
+ggplot (aes(x = width_avg_m, y = S)) +
+geom_point(size = 3) +
+geom_smooth(method=lm) +
+theme_few()+
+guides(col = guide_legend(ncol = 1))
+
+Swidth2
+```
+
+```{r diversity-width plots, fig.cap = " Taxonomic richness as a function of intertidal zone width. ", message=FALSE, fig.width = 6, fig.height =9}
+Swidth/Swidth2
+
+```
+
+
+## Species richness vs. intertidal slope
+```{r div-scat-plot, include=FALSE, fig.width = 6, fig.height = 5}
+Sslope <- rich2 %>%
+  filter(site_type2 != "seawall") %>%
+  ggplot (aes(
+    x = slope_avg,
+    y = S,
+    color = site_type2,
+    shape = RTC_sites
+  )) +
+  geom_point(size = 4) +
+  theme_few() +
+  guides(col = guide_legend(ncol = 1))
+
+Sslope
+
+```
+
+```{r div-fit-plot, include=FALSE, fig.width = 6, fig.height = 5}
+
+Sslope2 <- rich2 %>%
+  filter(site_type2 != "seawall") %>%
+  ggplot (aes(x = slope_avg, y = S)) +
+  geom_point(size = 3) +
+  geom_smooth(method = lm) +
+  theme_few() +
+  guides(col = guide_legend(ncol = 1))
+
+Sslope2
+```
+
+```{r diversity-slope plots, message=FALSE, fig.cap = " Taxonomic richness as a function of intertidal zone slope. ", fig.width = 6, fig.height =9}
+Sslope/Sslope2
+
+```
+
+## Species richness vs. intertidal rugosity
+```{r rugplot, include=FALSE, fig.width = 6, fig.height = 5}
+
+Srug <- rich2 %>%
+  ggplot (aes(
+    x = rugosity_avg,
+    y = S,
+    color = site_type2,
+    shape = RTC_sites
+  )) +
+  geom_point(size = 4) +
+  theme_few() +
+  guides(col = guide_legend(ncol = 1))
+
+Srug
+
+```
+
+```{r rugfit, include=FALSE, fig.width = 6, fig.height = 5}
+
+Srug2 <- rich2 %>%
+  ggplot (aes(x = rugosity_avg, y = S)) +
+  geom_point(size = 3) +
+  geom_smooth(method = lm) +
+  theme_few() +
+  guides(col = guide_legend(ncol = 1))
+
+Srug2
+```
+
+```{r diversity-rug plots, message=FALSE, warning=FALSE, fig.cap = " Taxonomic richness as a function of intertidal zone rugosity. ", fig.width = 6, fig.height =9}
+
+Srug/Srug2
+
+```
+
+
 
 ```{r, include=FALSE}
 ## save figure to output folder
