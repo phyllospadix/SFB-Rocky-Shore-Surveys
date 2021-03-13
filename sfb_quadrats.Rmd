@@ -833,7 +833,7 @@ ggarrange(fucus_p4 + rremove("x.text"), fucus_p5, ncol=1, nrow=2,heights= c(0.5,
 ggarrange(oyster_p4 + rremove("x.text"), oyster_p5, ncol=1, nrow=2,heights= c(0.5, 0.55), align = "v")
 ```
 
-```{r, include=FALSE}
+```{r oysters x fucus cover, include=FALSE}
 scat1 <- rqs3 %>%
   drop_na(fucus_pc, oyster_n) %>%
   filter(zone != "High") %>% 
@@ -857,7 +857,7 @@ scat2 <- rqs3 %>%
 
 scat2
 ```
-```{r, include=FALSE, fig.width = 6, fig.height = 10}
+```{r size-structure-oysters, include=FALSE, fig.width = 6, fig.height = 10}
 
 sz_struct_oysters <- oysters3 %>%
   mutate(
@@ -943,7 +943,7 @@ sz_struct_oysters
  
 ```
 
-```{r, include=FALSE, fig.width = 6, fig.height = 10}
+```{r size-structure-limpets, include=FALSE, fig.width = 6, fig.height = 10}
 sz_struct_limpets <- limpets3 %>%
   mutate(
     site_name = fct_relevel(
@@ -984,7 +984,7 @@ ggplot(aes(y=site_name, x=size_mm, fill=site_name))+
 sz_struct_limpets
 ```
 
-```{r, include=FALSE, fig.width = 6, fig.height = 10}
+```{r size-structure-baymussels, include=FALSE, fig.width = 6, fig.height = 10}
 
 sz_struct_baymussels <- baymussels3 %>%
   mutate(
@@ -1033,7 +1033,7 @@ ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct
 # Dataviz of sfbay transect surveys
 ## Biodiversity: Richness(S) 
 
-```{r biodiversity RTC, fig.cap = "Species richness by site (from transect data only).", message=FALSE, fig.width = 6, fig.height = 5}
+```{r biodiversityRTC, fig.cap = "Species richness by site (from transect data only).", message=FALSE, fig.width = 6, fig.height = 5}
 
 biodiv1 <- ggplot(rich2, aes(x=bay_perim_order, y=S, fill=RTC_sites)) + 
   geom_bar(stat = "identity", color="dark grey")+
@@ -1079,7 +1079,7 @@ biodiv1
 ```
 
 ## Taxonomic richness by site type
-```{r, Tax-rich-type, include=TRUE, fig.width = 6, fig.height = 5}
+```{r Tax-rich-type, include=TRUE, fig.width = 6, fig.height = 5}
 #Transect level richness x sitetype
 
 Stype <- rich2 %>%
@@ -1126,7 +1126,7 @@ Swidth
 
 ```
 
-```{r rich-width-fit plot, include=FALSE, fig.width = 6, fig.height = 5}
+```{r rich-width-fit-plot, include=FALSE, fig.width = 6, fig.height = 5}
 Swidth2 <- rich2 %>%
 #filter(site_type2 != "seawall") %>%
 ggplot (aes(x = width_avg_m, y = S)) +
@@ -1138,7 +1138,7 @@ guides(col = guide_legend(ncol = 1))
 Swidth2
 ```
 
-```{r diversity-width plots, fig.cap = "Taxonomic richness as a function of intertidal zone width.", message=FALSE, fig.width = 6, fig.height =9}
+```{r diversity-width-plots, fig.cap = "Taxonomic richness as a function of intertidal zone width.", message=FALSE, fig.width = 6, fig.height =9}
 Swidth/Swidth2
 
 ```
@@ -1175,7 +1175,7 @@ Sslope2 <- rich2 %>%
 Sslope2
 ```
 
-```{r diversity-slope plots, message=FALSE, fig.cap = "Taxonomic richness as a function of intertidal zone slope.", fig.width = 6, fig.height =9}
+```{r diversity-slope-plots, message=FALSE, fig.cap = "Taxonomic richness as a function of intertidal zone slope.", fig.width = 6, fig.height =9}
 Sslope/Sslope2
 
 ```
@@ -1210,7 +1210,7 @@ Srug2 <- rich2 %>%
 Srug2
 ```
 
-```{r diversity-rug plots, message=FALSE, warning=FALSE, fig.cap = "Taxonomic richness as a function of intertidal zone rugosity. ", fig.width = 6, fig.height =9}
+```{r diversity-rug-plots, message=FALSE, warning=FALSE, fig.cap = "Taxonomic richness as a function of intertidal zone rugosity. ", fig.width = 6, fig.height =9}
 
 Srug/Srug2
 
