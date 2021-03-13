@@ -1,0 +1,77 @@
+quadrat taxon codes,units notes
+fucus_pc,percent cover
+barnacl_25pc,no. of points out of 25 on 10x10cm quad- convert to pc my multiplication ( n*4 = percentage cover)
+mast,presence/absence
+ulva,presence/absence
+ent,presence/absence
+porphyra,presence/absence
+diatoms,presence/absence
+rcr,presence/absence
+rfa,presence/absence
+gfa,presence/absence
+isopods,presence/absence
+chth,presence/absence
+bal,presence/absence
+myt,presence/absence
+encr_bryo,presence/absence
+red_bryo,presence/absence
+brown_bryo,presence/absence
+mastj,presence/absence
+mastp,presence/absence
+hemi,presence/absence
+rbr,presence/absence
+rbr2,presence/absence
+rbr3,presence/absence
+amph,presence/absence
+b-red,presence/absence
+sponge,presence/absence
+or_sp,presence/absence
+ye_sp,presence/absence
+mene,presence/absence
+caul,presence/absence
+pag_h,presence/absence
+wasp,presence/absence
+teg_chl,presence/absence
+mazz,presence/absence
+mazz2,presence/absence
+mazz_s,presence/absence
+mazz_f,presence/absence
+sarg,presence/absence
+pag_s,presence/absence
+r_myt,presence/absence
+chond,presence/absence
+polyn,presence/absence
+polys,presence/absence
+crypto,presence/absence
+mya,presence/absence
+neries,presence/absence
+zost,presence/absence
+gunnel,presence/absence
+schyz,presence/absence
+prio,presence/absence
+small_white_barn,presence/absence
+egregia,presence/absence
+microcladia,presence/absence
+sip_brown,presence/absence
+myt_ca,presence/absence
+calli,presence/absence
+chaeto,presence/absence
+hetero-sip,presence/absence
+limpet_n,no. per 0.25 quadrat
+chiton_n,no. per 0.25 quadrat
+littorine_n,no. per 0.25 quadrat
+mytilus_n,no. per 0.25 quadrat
+myt_ca_n,no. per 0.25 quadrat
+brown_mussel_n,no. per 0.25 quadrat
+oyster_n,no. per 0.25 quadrat
+oyster_scar_n,no. per 0.25 quadrat
+pag_n,no. per 0.25 quadrat
+grapsid_n,no. per 0.25 quadrat
+claw_n,no. per 0.25 quadrat
+mene_n,no. per 0.25 quadrat
+mya_n,no. per 0.25 quadrat
+cockle_n,no. per 0.25 quadrat
+green_crab_n,no. per 0.25 quadrat
+shore_crab_n,no. per 0.25 quadrat
+clam_n,no. per 0.25 quadrat
+tegula_n,no. per 0.25 quadrat
