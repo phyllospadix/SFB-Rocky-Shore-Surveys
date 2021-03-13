@@ -1,12 +1,17 @@
 ---
 title: "SFBay Rocky Shore Survey analyses"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "Karina J. Nielsen"
 date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
 output:
    bookdown::html_document2: default
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, cache=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE,
   fig.align = "left",
@@ -1026,8 +1031,9 @@ sz_struct_baymussels
 ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct_limpets + rremove("y.text"), ncol=3, nrow=1, widths= c(1, 0.6, 0.6 ), align = "h")
 ```
 # Dataviz of sfbay transect surveys
-## Biodiversity: Richness(S)  
-```{r biodiversity RTC, fig.cap = " Species richness by site (from transect data only).", message=FALSE, fig.width = 6, fig.height = 5}
+## Biodiversity: Richness(S) 
+
+```{r biodiversity RTC, fig.cap = "Species richness by site (from transect data only).", message=FALSE, fig.width = 6, fig.height = 5}
 
 biodiv1 <- ggplot(rich2, aes(x=bay_perim_order, y=S, fill=RTC_sites)) + 
   geom_bar(stat = "identity", color="dark grey")+
@@ -1107,7 +1113,7 @@ Stype
 
 
 ## Species richness vs. intertidal width
-```{r. rich-width-plot, include=FALSE, fig.width = 6, fig.height = 5}
+```{r rich-width-plot, include=TRUE, fig.width = 6, fig.height = 5}
 
 Swidth <- rich2 %>%
 #filter(site_type2 != "seawall") %>%
@@ -1132,7 +1138,7 @@ guides(col = guide_legend(ncol = 1))
 Swidth2
 ```
 
-```{r diversity-width plots, fig.cap = " Taxonomic richness as a function of intertidal zone width. ", message=FALSE, fig.width = 6, fig.height =9}
+```{r diversity-width plots, fig.cap = "Taxonomic richness as a function of intertidal zone width.", message=FALSE, fig.width = 6, fig.height =9}
 Swidth/Swidth2
 
 ```
@@ -1169,7 +1175,7 @@ Sslope2 <- rich2 %>%
 Sslope2
 ```
 
-```{r diversity-slope plots, message=FALSE, fig.cap = " Taxonomic richness as a function of intertidal zone slope. ", fig.width = 6, fig.height =9}
+```{r diversity-slope plots, message=FALSE, fig.cap = "Taxonomic richness as a function of intertidal zone slope.", fig.width = 6, fig.height =9}
 Sslope/Sslope2
 
 ```
@@ -1204,7 +1210,7 @@ Srug2 <- rich2 %>%
 Srug2
 ```
 
-```{r diversity-rug plots, message=FALSE, warning=FALSE, fig.cap = " Taxonomic richness as a function of intertidal zone rugosity. ", fig.width = 6, fig.height =9}
+```{r diversity-rug plots, message=FALSE, warning=FALSE, fig.cap = "Taxonomic richness as a function of intertidal zone rugosity. ", fig.width = 6, fig.height =9}
 
 Srug/Srug2
 
