@@ -1087,11 +1087,11 @@ ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct
 # Dataviz of sfbay transect + quadrat surveys
 ## Biodiversity: Richness(S) 
 
-```{r biodiversityRTCsite, fig.cap = "Richness by site (all sources).", message=FALSE, fig.width = 6, fig.height = 5}
+```{r biodiversityRTCsite, fig.cap = "Richness by site (all sources).", include =FALSE, message=FALSE, fig.width = 4, fig.height = 4}
 
 biodiv_s <- ggplot(subset(rich2, scale == "site"), aes(x=bay_perim_order, y=richness, fill=RTC_sites)) + 
-  geom_bar(stat = "identity", color="dark grey")+
-  scale_fill_manual(values = c("grey95", "thistle3"))+ 
+  geom_bar(stat = "identity", color="white")+
+  scale_fill_manual(values = c("cadetblue4", "cadetblue4"))+ #"grey95", "thistle3"
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -1125,19 +1125,19 @@ biodiv_s <- ggplot(subset(rich2, scale == "site"), aes(x=bay_perim_order, y=rich
     ),
     drop=FALSE
   ) +
-  labs(x = NULL,  y = "Richness (S)") +
-  ggtitle("Site Biodiversity")
+  labs(x = NULL,  y = "No. of taxa") +
+  ggtitle("Site")
 
 biodiv_s
 
 ```
 
-```{r biodiversityRTCquads, fig.cap = "Richness by site (quadrats).", message=FALSE, fig.width = 6, fig.height = 5}
+```{r biodiversityRTCquads, fig.cap = "Richness by site (quadrats).", include =FALSE, message=FALSE, fig.width = 4, fig.height = 4}
 
 
 biodiv_q <- ggplot(subset(rich2, scale == "quad"), aes(x=bay_perim_order, y=richness, fill=RTC_sites)) + 
-  geom_bar(stat = "identity", color="dark grey")+
-  scale_fill_manual(values = c("grey95", "thistle3"))+ 
+  geom_bar(stat = "identity", color="white")+
+  scale_fill_manual(values = c("cadetblue2", "cadetblue2"))+ #"grey95", "thistle3"
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -1171,18 +1171,18 @@ biodiv_q <- ggplot(subset(rich2, scale == "quad"), aes(x=bay_perim_order, y=rich
     ),
     drop=FALSE
   ) +
-  labs(x = NULL,  y = "Richness (S)") +
-  ggtitle("Quadrat Biodiversity")
+  labs(x = NULL,  y = "No.of taxa") +
+  ggtitle("Quadrats")
 
 biodiv_q
 
 ```
 
-```{r biodiversityRTCtransects, fig.cap = "Richness by site (transect).", message=FALSE, fig.width = 6, fig.height = 5}
+```{r biodiversityRTCtransects, fig.cap = "Richness by site (transect).", include =FALSE, message=FALSE, fig.width = 4, fig.height = 4}
 
 biodiv_t <- ggplot(subset(rich2, scale == "tran"), aes(x=bay_perim_order, y=richness, fill=RTC_sites)) + 
-  geom_bar(stat = "identity", color="dark grey")+
-  scale_fill_manual(values = c("grey95", "thistle3"))+ 
+  geom_bar(stat = "identity", color="white")+
+  scale_fill_manual(values = c("cadetblue3", "cadetblue3"))+ #"grey95", "thistle3"
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -1216,16 +1216,20 @@ biodiv_t <- ggplot(subset(rich2, scale == "tran"), aes(x=bay_perim_order, y=rich
     ),
     drop=FALSE
   ) +
-  labs(x = NULL,  y = "Richness (S)") +
-  ggtitle("Transect Biodiversity")
+  labs(x = NULL,  y = "No. of taxa") +
+  ggtitle("Transects")
 
 biodiv_t
 
 ```
 
+```{r rich-scale-site, include=TRUE, fig.cap = " Number of taxa observed at different scales. Site scale includes all taxa observed at the site from all sources, transect scale includes only sessile taxa contributing to primary cover, and quadrat scale includes all taxa observed in 1/4 m2 quadrats in two zones (*Fucus* and oyster zones. ", fig.width = 4, fig.height = 8}
+
+ggarrange(biodiv_s + rremove("x.text") + rremove ("y.title") + ylim(0,35), biodiv_t + rremove("x.text") + ylim(0,35), biodiv_q + rremove ("y.title")+ ylim(0,35), ncol=1, nrow=3,heights= c(0.5, 0.5, 0.8), align = "v")
+```
 
 ## Taxonomic richness by site type
-```{r Tax-rich-type-site, include=TRUE, fig.width = 6, fig.height = 5, fig.cap = "Richness by site type (site)."}
+```{r Tax-rich-type-site, include=FALSE, fig.width = 6, fig.height = 5, fig.cap = "Richness by site type (site)."}
 #richness x sitetype
 
 rich3 <- rich2 %>% 
@@ -1249,13 +1253,15 @@ richtype_s <- ggplot(subset(rich3, scale == "site"), aes(x = site_type2, y = ric
     hjust = 0.5
   )) +
   labs(x = NULL,  y = expression(paste(
-    "S")
+    "No. of taxa")
   )) +
-  ggtitle("Richness by Site Type")
+  ggtitle("Sites")
 
 richtype_s
 ```
-```{r Tax-rich-type, include=TRUE, fig.width = 6, fig.height = 5}
+
+
+```{r Tax-rich-type, include=FALSE, fig.width = 6, fig.height = 5}
 #richness x sitetype
 
 rich3 <- rich2 %>% 
@@ -1279,16 +1285,16 @@ richtype_q <- ggplot(subset(rich3, scale == "quad"), aes(x = site_type2, y = ric
     hjust = 0.5
   )) +
   labs(x = NULL,  y = expression(paste(
-    "S")
+    "No. of taxa")
   )) +
-  ggtitle("Richness by Site Type - quadrats")
+  ggtitle("Quadrats")
 
 richtype_q
 ```
 
 
 
-```{r Tax-rich-type-tran, include=TRUE, fig.width = 6, fig.height = 5, fig.cap = "Richness by site type (transect)."}
+```{r Tax-rich-type-tran, include=FALSE, fig.width = 6, fig.height = 5, fig.cap = "Richness by site type (transect)."}
 #richness x sitetype
 
 rich3 <- rich2 %>% 
@@ -1312,15 +1318,22 @@ richtype_t <- ggplot(subset(rich3, scale == "tran"), aes(x = site_type2, y = ric
     hjust = 0.5
   )) +
   labs(x = NULL,  y = expression(paste(
-    "S")
+    "No. of taxa")
   )) +
-  ggtitle("Richness by Site Type")
+  ggtitle("Transects")
 
 richtype_t
 ```
 
+
+```{r rich-scale-site-type, include=TRUE, fig.cap = " Number of taxa observed at different sites and scales. See above for details regarding scales.", fig.width = 3, fig.height = 6}
+
+ggarrange(richtype_s + rremove("x.text") + rremove ("y.title") + ylim(5,35), richtype_t + rremove("x.text") + ylim(5,35), richtype_q + rremove ("y.title")+ ylim(5,35), ncol=1, nrow=3,heights= c(0.55, 0.55, 0.6), align = "v")
+```
+
 ## Species richness vs. intertidal width
-```{r rich-width-scale, include=TRUE, fig.width = 12, fig.height = 5, fig.cap = "Richness by intertidal width."}
+
+```{r prep-for-scale, include=FALSE}
 
 rich4 <- rich3 %>%
   filter(site_type2 != "seawall")
@@ -1332,40 +1345,81 @@ rich4 <-
 with(rich4, levels(scale))
 
 
+```
+
+```{r rich-width-scale, include=TRUE, fig.width = 4, fig.height = 8, fig.cap = "Richness by intertidal width."}
+
 SwidthAll <-
-  ggplot(rich4, aes(x = width_avg_m, y = richness, color = site_type2)) +
-  geom_point(size = 3,
-             alpha = 0.6) +
-  facet_wrap (~ scale) +
+  ggplot(rich4, aes(x = width_avg_m, y = richness, fill = site_type2)) +
+  geom_point(size = 4,
+             shape = 21,
+             alpha = 1) +
+  facet_wrap (~ scale, ncol=1) +
+  scale_fill_brewer(palette = "Set3") +
+  scale_colour_manual(values = c("black", "black", "black")) +
   theme_few() +
   guides(col = guide_legend(ncol = 1))
 SwidthAll
 
+
+
+```
+```{r rich-width-scale-lm, message = FALSE, Include=FALSE, fig.width = 6.5, fig.height = 4}
+# SwidthAll.lm <-
+#     ggplot (rich4, aes(x = width_avg_m, y = richness)) +
+#   geom_point(size = 2,
+#              shape = 21,
+#              alpha = 1) +
+#   geom_smooth (method = lm)+
+#     facet_wrap (~ scale)+
+#   theme_few()
+#   
+# SwidthAll.lm
 ```
 
-
 ## Species richness vs. intertidal slope
-```{r rich-slope-scale, include=TRUE, fig.width = 12, fig.height = 5, fig.cap = "Richness by intertidal slope."}
+```{r rich-slope-scale, include=TRUE, echo=FALSE, fig.width = 4, fig.height = 8, fig.cap = "Richness by intertidal slope."}
 
 SslopeAll <-
-  ggplot(rich4, aes(x = slope_avg, y = richness, color = site_type2)) +
-  geom_point(size = 3,
-             alpha = 0.6) +
+  ggplot(rich4, aes(x = slope_avg, y = richness, fill = site_type2)) +
+   geom_point(size = 4,
+             shape = 21,
+             alpha = 1) +
   facet_wrap (~ scale) +
+  scale_fill_brewer(palette = "Set3") +
+  scale_colour_manual(values = c("black", "black", "black")) +
+  facet_wrap (~ scale, ncol=1) +
   theme_few() +
   guides(col = guide_legend(ncol = 1))
 SslopeAll
 
 ```
 
+```{r nada, include = FALSE}
+# SslopeAll.lm <-
+#     ggplot (rich4, aes(x = slope_avg, y = richness)) +
+#   geom_point(size = 2,
+#              shape = 21,
+#              alpha = 1) +
+#   geom_smooth (method = lm)+
+#     facet_wrap (~ scale)+
+#   theme_few()
+# SslopeAll.lm
+```
+  
+
 ## Species richness vs. intertidal rugosity
-```{r rich-rug-scale, include=TRUE, fig.width = 12, fig.height = 5, fig.cap = "Richness by intertidal rugosity."}
+```{r rich-rug-scale, include=TRUE, warning=FALSE, fig.width = 4, fig.height = 8, fig.cap = "Richness by intertidal rugosity."}
 
 SrugAll <-
-  ggplot(rich4, aes(x = rugosity_avg, y = richness, color = site_type2)) +
-  geom_point(size = 3,
-             alpha = 0.6) +
+  ggplot(rich4, aes(x = rugosity_avg, y = richness, fill = site_type2)) +
+   geom_point(size = 4,
+             shape = 21,
+             alpha = 1) +
   facet_wrap (~ scale) +
+  scale_fill_brewer(palette = "Set3") +
+  scale_colour_manual(values = c("black", "black", "black")) +
+  facet_wrap (~ scale, ncol=1) +
   theme_few() +
   guides(col = guide_legend(ncol = 1))
 SrugAll
@@ -1381,6 +1435,18 @@ SrugAll
 # SrugAlllm
 
 ```
+```{r nada2, include=FALSE}
+# SrugAll.lm <-
+#     ggplot (rich4, aes(x = rugosity_avg, y = richness)) +
+#   geom_point(size = 2,
+#              shape = 21,
+#              alpha = 1) +
+#   geom_smooth (method = lm)+
+#     facet_wrap (~ scale)+
+#   theme_few()
+# SrugAll.lm
+```
+
 
 
 
