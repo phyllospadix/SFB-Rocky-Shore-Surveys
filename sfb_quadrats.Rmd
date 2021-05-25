@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 ```{r library, include=FALSE}
 library("easypackages")
-my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex", "bookdown", "ggpubr", "wesanderson", "pals", "ggridges", "hrbrthemes", "viridis") 
+my_packages <- c("renv", "easypackages",  "here", "ggthemes", "gridExtra", "tidyverse", "lubridate", "patchwork", "tinytex", "bookdown", "ggpubr", "wesanderson", "pals", "ggridges", "hrbrthemes", "viridis", "dplyr", "here", "readr", "httr", "RcolorBrewer", "skimr", "pheatmap" ) 
 libraries(my_packages)
 
 # Install packages if needed
@@ -73,11 +73,46 @@ rqs.loc <- read_csv(here::here ("data","sfbay_rockweed_site_names_locations.csv"
 sizes <- read_csv(here::here ("data","sfbay_rockweed_quadrat_invert_sizes.csv"), col_names = TRUE)
 rich <- read_csv(here::here ("data","sfbay_richness_site_sum.csv"), col_names = TRUE)
 phys <- read_csv(here::here ("data","sfbay_physical_site_sum.csv"), col_names = TRUE)
+cover <- read_csv(here::here ("data","pct_cover_by_transects.csv"), col_names = TRUE)
+coverbio <- read_csv(here::here ("data","pct_cover_by_transects_biol.csv"), col_names = TRUE)
 
 ```
 
 
 ```{r wrangle, include=FALSE}
+
+# converts first column of a tibble into row names for heatmap function
+cover2 <- column_to_rownames(coverbio, var = "ftu")
+coverbio2 <- column_to_rownames(coverbio, var = "ftu")
+#coverbio_wide_s <- column_to_rownames(coverbio_wide_s, var = "ftu")
+
+# converts wide format data to long format
+cover_long <- cover %>% 
+  pivot_longer(!ftu, names_to = "site_tran", values_to = "cover")
+#converts NAs to 0
+cover_long[is.na(cover_long)] <- 0
+
+# separates site_tran variable into site and tran (has a common delimiter)
+cover_long_s <- separate(cover_long, site_tran, into = c("site", "tran"))
+
+# converts wide format data to long format
+coverbio_long <- coverbio %>% 
+  pivot_longer(!ftu, names_to = "site_tran", values_to = "cover")
+#converts NAs to 0
+coverbio_long[is.na(coverbio_long)] <- 0
+
+# separates site_tran variable into site and tran (has a common delimiter)
+coverbio_long_s <- separate(coverbio_long, site_tran, into = c("site", "tran"))
+
+# Summarise mean cover by ftu and site
+coverbio_long_sitesum <- coverbio_long_s %>%
+group_by(site,ftu) %>%
+summarise(cover_x = mean(cover))
+
+# pivots to wide format for heatmap
+coverbio_wide_s <- coverbio_long_sitesum %>%
+  pivot_wider(names_from = site, values_from = cover_x)
+
 
 # Updates rqs$date formatting from chr to POSIXct
 rqs <- mutate(rqs, date = as.POSIXct(rqs$date, tz = "America/Los_Angeles", format = "%m/%d/%Y")) 
@@ -352,7 +387,7 @@ rich2 <- full_join(rich2, phys, by = "site_code")
 
 ```
 
-# Dataviz of sfbay quadrat surveys
+# Quadrat surveys
 ```{r fucus x zone, include=FALSE, fig.width = 6, fig.height = 5}
 
 # Mid + low zone Fucus cover x site, ordered around SFBay perimeter
@@ -418,7 +453,8 @@ fucus_p2 <- rqs3 %>%
                jitter.width = 1,
                seed = 7
              )) +
-  scale_fill_manual(values = c("darkolivegreen4", "light grey"), drop=FALSE) +
+  scale_fill_manual(values = c("darkolivegreen4", "darkolivegreen4"), drop=FALSE) + 
+  #replace second color with "light grey" to highlight RTC sites
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -474,7 +510,8 @@ fucus_p3 <- rqs3 %>%
                jitter.width = 1,
                seed = 7
              )) +
-  scale_fill_manual(values = c("darkolivegreen4", "light grey"), drop=FALSE) +   
+  scale_fill_manual(values = c("darkolivegreen4", "darkolivegreen4"), drop=FALSE) + 
+   #replace second color with "light grey" to highlight RTC sites
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -644,7 +681,8 @@ oysters_p2 <- rqs3 %>%
                jitter.width = 1,
                seed = 7
              )) +
-  scale_fill_manual(values = c("coral", "light grey"), drop=FALSE) +
+  scale_fill_manual(values = c("light grey", "light grey"), drop=FALSE) +
+   #replace first color with "coral" to highlight RTC sites
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -706,7 +744,8 @@ oysters_p3 <- rqs3 %>%
                jitter.width = 1,
                seed = 7
              )) +
-  scale_fill_manual(values = c("coral", "light grey"), drop=FALSE) +
+  scale_fill_manual(values = c("light grey", "light grey"), drop=FALSE) +
+    #replace first color with "coral" to highlight RTC sites
   theme_few() +
   theme(legend.position = "none") +
   theme(axis.text.x = element_text(
@@ -813,22 +852,22 @@ oyster_p5 <- rqs7 %>%
 oyster_p5 
 ```
 ## Rockweed, *Fucus distichus*
-```{r rockweed-by-zone-site-fig, fig.cap = " Rockweed (Fucus distichus) cover in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.", fig.width = 6, fig.height = 8}
+```{r rockweed-by-zone-site-fig, fig.cap = " Rockweed (*Fucus distichus*) cover in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.", fig.width = 6, fig.height = 8}
 
 ggarrange(fucus_p2 + rremove("x.text"), fucus_p3, ncol=1, nrow=2,heights= c(0.7, 1), align = "v")
 ```
 ## Native oyster, *Ostrea lurida*
-```{r oysters-by-zone-site-fig, fig.cap = " Native oyster (Ostrea lurida) abundance in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.", fig.width = 6, fig.height = 8}
+```{r oysters-by-zone-site-fig, fig.cap = " Native oyster (*Ostrea lurida*) abundance in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.", fig.width = 6, fig.height = 8}
 
 ggarrange(oysters_p2 + rremove("x.text"), oysters_p3, ncol=1, nrow=2,heights= c(0.7, 1), align = "v")
 ```
 ## Rockweed by site type and zone
-```{r fucus-sitetype-zone-fig, fig.cap = " Cover of rockweed (Fucus distichus) in the mid and low intertidal by site type.", fig.width = 4, fig.height = 6}
+```{r fucus-sitetype-zone-fig, fig.cap = " Cover of rockweed (*Fucus distichus*) in the mid and low intertidal by site type.", fig.width = 4, fig.height = 6}
 
 ggarrange(fucus_p4 + rremove("x.text"), fucus_p5, ncol=1, nrow=2,heights= c(0.5, 0.55), align = "v")
 ```
 ## Oysters by site type and zone
-```{r oysters-sitetype-zone-fig, fig.cap = " Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type.", fig.width = 4, fig.height = 6}
+```{r oysters-sitetype-zone-fig, fig.cap = " Abundance of native oysters (*Ostrea lurida*) in the mid and low intertidal by site type.", fig.width = 4, fig.height = 6}
 
 ggarrange(oyster_p4 + rremove("x.text"), oyster_p5, ncol=1, nrow=2,heights= c(0.5, 0.55), align = "v")
 ```
@@ -856,6 +895,21 @@ scat2 <- rqs3 %>%
   scale_color_manual(values=as.vector(kelly(20)))  #pals color palettes issue: in ggplot2 the color vector CANNOT have names, as.vector() strips off the names from the polychrome colors
 
 scat2
+```
+
+```{r oyster-scar-plot2, message = FALSE, Include=FALSE, fig.width = 6.5, fig.height = 4}
+scat3 <- rqs3 %>%
+  drop_na(oyster_n, oyster_scar_n) %>%
+  filter(zone != "High") %>% 
+  ggplot (aes(oyster_n, oyster_scar_n)) +
+  geom_point(size = 3, alpha=0.6, position = position_jitter()) +
+  geom_smooth (method = lm)+
+    facet_wrap (~ zone)+
+  theme_few()
+  #guides(col = guide_legend(ncol = 2)) +
+  #scale_color_manual(values=as.vector(kelly(20)))  #pals color palettes issue: in ggplot2 the color vector CANNOT have names, as.vector() strips off the names from the polychrome colors
+
+scat3
 ```
 ```{r size-structure-oysters, include=FALSE, fig.width = 6, fig.height = 10}
 
@@ -1030,12 +1084,12 @@ sz_struct_baymussels
 
 ggarrange(sz_struct_oysters, sz_struct_baymussels + rremove("y.text"), sz_struct_limpets + rremove("y.text"), ncol=3, nrow=1, widths= c(1, 0.6, 0.6 ), align = "h")
 ```
-# Dataviz of sfbay transect surveys
+# Dataviz of sfbay transect + quadrat surveys
 ## Biodiversity: Richness(S) 
 
-```{r biodiversityRTC, fig.cap = "Species richness by site (from transect data only).", message=FALSE, fig.width = 6, fig.height = 5}
+```{r biodiversityRTCsite, fig.cap = "Richness by site (all sources).", message=FALSE, fig.width = 6, fig.height = 5}
 
-biodiv1 <- ggplot(rich2, aes(x=bay_perim_order, y=S, fill=RTC_sites)) + 
+biodiv_s <- ggplot(subset(rich2, scale == "site"), aes(x=bay_perim_order, y=richness, fill=RTC_sites)) + 
   geom_bar(stat = "identity", color="dark grey")+
   scale_fill_manual(values = c("grey95", "thistle3"))+ 
   theme_few() +
@@ -1071,22 +1125,114 @@ biodiv1 <- ggplot(rich2, aes(x=bay_perim_order, y=S, fill=RTC_sites)) +
     ),
     drop=FALSE
   ) +
-  labs(x = NULL,  y = "S") +
-  ggtitle("Biodiversity")
+  labs(x = NULL,  y = "Richness (S)") +
+  ggtitle("Site Biodiversity")
 
-biodiv1
+biodiv_s
 
 ```
 
-## Taxonomic richness by site type
-```{r Tax-rich-type, include=TRUE, fig.width = 6, fig.height = 5}
-#Transect level richness x sitetype
+```{r biodiversityRTCquads, fig.cap = "Richness by site (quadrats).", message=FALSE, fig.width = 6, fig.height = 5}
 
-Stype <- rich2 %>%
-  filter(site_type2 != "blocks") %>%
+
+biodiv_q <- ggplot(subset(rich2, scale == "quad"), aes(x=bay_perim_order, y=richness, fill=RTC_sites)) + 
+  geom_bar(stat = "identity", color="dark grey")+
+  scale_fill_manual(values = c("grey95", "thistle3"))+ 
+  theme_few() +
+  theme(legend.position = "none") +
+  theme(axis.text.x = element_text(
+    angle = 90,
+    vjust = 0.5,
+    hjust = 1
+  )) +
+  scale_x_discrete(
+    breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20),
+    labels = c(
+      "SF Marina",
+      "Horseshoe Bay",
+      "Dunphy Park",
+      "Brickyard Park",
+      "RTC Beach",
+      "RTC Theater",
+      "RTC North Dock",
+      "Pt. Chauncey",
+      "Pt. Chauncey Beach S",
+      "Pt. Chauncey Beach N",
+      "Paradise Beach Park",
+      "Paradise Cay",
+      "San Quentin Beach",
+      "Starkweather Park",
+      "Pt. San Pablo",
+      "Pt. Orient N",
+      "Pt. Orient S",
+      "Pt. Molate",
+      "Keller Beach",
+      "Miller Knox"
+    ),
+    drop=FALSE
+  ) +
+  labs(x = NULL,  y = "Richness (S)") +
+  ggtitle("Quadrat Biodiversity")
+
+biodiv_q
+
+```
+
+```{r biodiversityRTCtransects, fig.cap = "Richness by site (transect).", message=FALSE, fig.width = 6, fig.height = 5}
+
+biodiv_t <- ggplot(subset(rich2, scale == "tran"), aes(x=bay_perim_order, y=richness, fill=RTC_sites)) + 
+  geom_bar(stat = "identity", color="dark grey")+
+  scale_fill_manual(values = c("grey95", "thistle3"))+ 
+  theme_few() +
+  theme(legend.position = "none") +
+  theme(axis.text.x = element_text(
+    angle = 90,
+    vjust = 0.5,
+    hjust = 1
+  )) +
+  scale_x_discrete(
+    breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20),
+    labels = c(
+      "SF Marina",
+      "Horseshoe Bay",
+      "Dunphy Park",
+      "Brickyard Park",
+      "RTC Beach",
+      "RTC Theater",
+      "RTC North Dock",
+      "Pt. Chauncey",
+      "Pt. Chauncey Beach S",
+      "Pt. Chauncey Beach N",
+      "Paradise Beach Park",
+      "Paradise Cay",
+      "San Quentin Beach",
+      "Starkweather Park",
+      "Pt. San Pablo",
+      "Pt. Orient N",
+      "Pt. Orient S",
+      "Pt. Molate",
+      "Keller Beach",
+      "Miller Knox"
+    ),
+    drop=FALSE
+  ) +
+  labs(x = NULL,  y = "Richness (S)") +
+  ggtitle("Transect Biodiversity")
+
+biodiv_t
+
+```
+
+
+## Taxonomic richness by site type
+```{r Tax-rich-type-site, include=TRUE, fig.width = 6, fig.height = 5, fig.cap = "Richness by site type (site)."}
+#richness x sitetype
+
+rich3 <- rich2 %>% 
+   filter(site_type2 != "blocks")
   #filter(site_type2 != "seawall") %>%
- # drop_na(oyster_n_avg) %>%
-  ggplot (aes(x = site_type2, y = S * 4, fill = site_type2)) +
+
+richtype_s <- ggplot(subset(rich3, scale == "site"), aes(x = site_type2, y = richness, fill = site_type2)) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(pch = 21, size =3,
              position = position_jitterdodge(
@@ -1105,117 +1251,325 @@ Stype <- rich2 %>%
   labs(x = NULL,  y = expression(paste(
     "S")
   )) +
-  ggtitle("S by Site Type")
+  ggtitle("Richness by Site Type")
 
-Stype 
+richtype_s
+```
+```{r Tax-rich-type, include=TRUE, fig.width = 6, fig.height = 5}
+#richness x sitetype
+
+rich3 <- rich2 %>% 
+   filter(site_type2 != "blocks")
+  #filter(site_type2 != "seawall") %>%
+
+richtype_q <- ggplot(subset(rich3, scale == "quad"), aes(x = site_type2, y = richness, fill = site_type2)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch = 21, size =3,
+             position = position_jitterdodge(
+               jitter.height = 0.5,
+               jitter.width = 0.5,
+               seed = 7
+             )) +
+  scale_fill_brewer(palette = "Set3") +
+  theme_few() +
+  theme(legend.position = "none") +
+  theme(axis.text.x = element_text(
+    angle = 0,
+    vjust = 0.5,
+    hjust = 0.5
+  )) +
+  labs(x = NULL,  y = expression(paste(
+    "S")
+  )) +
+  ggtitle("Richness by Site Type - quadrats")
+
+richtype_q
 ```
 
 
+
+```{r Tax-rich-type-tran, include=TRUE, fig.width = 6, fig.height = 5, fig.cap = "Richness by site type (transect)."}
+#richness x sitetype
+
+rich3 <- rich2 %>% 
+   filter(site_type2 != "blocks")
+  #filter(site_type2 != "seawall") %>%
+
+richtype_t <- ggplot(subset(rich3, scale == "tran"), aes(x = site_type2, y = richness, fill = site_type2)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(pch = 21, size =3,
+             position = position_jitterdodge(
+               jitter.height = 0.5,
+               jitter.width = 0.5,
+               seed = 7
+             )) +
+  scale_fill_brewer(palette = "Set3") +
+  theme_few() +
+  theme(legend.position = "none") +
+  theme(axis.text.x = element_text(
+    angle = 0,
+    vjust = 0.5,
+    hjust = 0.5
+  )) +
+  labs(x = NULL,  y = expression(paste(
+    "S")
+  )) +
+  ggtitle("Richness by Site Type")
+
+richtype_t
+```
 
 ## Species richness vs. intertidal width
-```{r rich-width-plot, include=TRUE, fig.width = 6, fig.height = 5}
+```{r rich-width-scale, include=TRUE, fig.width = 12, fig.height = 5, fig.cap = "Richness by intertidal width."}
 
-Swidth <- rich2 %>%
-#filter(site_type2 != "seawall") %>%
-ggplot (aes(x = width_avg_m, y = S, color = site_type2, shape=RTC_sites)) +
-geom_point(size = 4) +
-theme_few()+
-guides(col = guide_legend(ncol = 1))
-  
-Swidth
+rich4 <- rich3 %>%
+  filter(site_type2 != "seawall")
 
-```
+# Convert zone character variable to factor variable with ordered levels
+rich4 <-
+  within(rich4, scale <-
+           factor(scale, levels = c("quad", "tran", "site")))
+with(rich4, levels(scale))
 
-```{r rich-width-fit-plot, include=FALSE, fig.width = 6, fig.height = 5}
-Swidth2 <- rich2 %>%
-#filter(site_type2 != "seawall") %>%
-ggplot (aes(x = width_avg_m, y = S)) +
-geom_point(size = 3) +
-geom_smooth(method=lm) +
-theme_few()+
-guides(col = guide_legend(ncol = 1))
 
-Swidth2
-```
-
-```{r diversity-width-plots, fig.cap = "Taxonomic richness as a function of intertidal zone width.", message=FALSE, fig.width = 6, fig.height =9}
-Swidth/Swidth2
+SwidthAll <-
+  ggplot(rich4, aes(x = width_avg_m, y = richness, color = site_type2)) +
+  geom_point(size = 3,
+             alpha = 0.6) +
+  facet_wrap (~ scale) +
+  theme_few() +
+  guides(col = guide_legend(ncol = 1))
+SwidthAll
 
 ```
 
 
 ## Species richness vs. intertidal slope
-```{r div-scat-plot, include=FALSE, fig.width = 6, fig.height = 5}
-Sslope <- rich2 %>%
-  filter(site_type2 != "seawall") %>%
-  ggplot (aes(
-    x = slope_avg,
-    y = S,
-    color = site_type2,
-    shape = RTC_sites
-  )) +
-  geom_point(size = 4) +
+```{r rich-slope-scale, include=TRUE, fig.width = 12, fig.height = 5, fig.cap = "Richness by intertidal slope."}
+
+SslopeAll <-
+  ggplot(rich4, aes(x = slope_avg, y = richness, color = site_type2)) +
+  geom_point(size = 3,
+             alpha = 0.6) +
+  facet_wrap (~ scale) +
   theme_few() +
   guides(col = guide_legend(ncol = 1))
-
-Sslope
-
-```
-
-```{r div-fit-plot, include=FALSE, fig.width = 6, fig.height = 5}
-
-Sslope2 <- rich2 %>%
-  filter(site_type2 != "seawall") %>%
-  ggplot (aes(x = slope_avg, y = S)) +
-  geom_point(size = 3) +
-  geom_smooth(method = lm) +
-  theme_few() +
-  guides(col = guide_legend(ncol = 1))
-
-Sslope2
-```
-
-```{r diversity-slope-plots, message=FALSE, fig.cap = "Taxonomic richness as a function of intertidal zone slope.", fig.width = 6, fig.height =9}
-Sslope/Sslope2
+SslopeAll
 
 ```
 
 ## Species richness vs. intertidal rugosity
-```{r rugplot, include=FALSE, fig.width = 6, fig.height = 5}
+```{r rich-rug-scale, include=TRUE, fig.width = 12, fig.height = 5, fig.cap = "Richness by intertidal rugosity."}
 
-Srug <- rich2 %>%
-  ggplot (aes(
-    x = rugosity_avg,
-    y = S,
-    color = site_type2,
-    shape = RTC_sites
-  )) +
-  geom_point(size = 4) +
+SrugAll <-
+  ggplot(rich4, aes(x = rugosity_avg, y = richness, color = site_type2)) +
+  geom_point(size = 3,
+             alpha = 0.6) +
+  facet_wrap (~ scale) +
   theme_few() +
   guides(col = guide_legend(ncol = 1))
+SrugAll
 
-Srug
-
-```
-
-```{r rugfit, include=FALSE, fig.width = 6, fig.height = 5}
-
-Srug2 <- rich2 %>%
-  ggplot (aes(x = rugosity_avg, y = S)) +
-  geom_point(size = 3) +
-  geom_smooth(method = lm) +
-  theme_few() +
-  guides(col = guide_legend(ncol = 1))
-
-Srug2
-```
-
-```{r diversity-rug-plots, message=FALSE, warning=FALSE, fig.cap = "Taxonomic richness as a function of intertidal zone rugosity. ", fig.width = 6, fig.height =9}
-
-Srug/Srug2
+# SrugAlllm <-
+#   ggplot(rich4, aes(x = rugosity_avg, y = richness)) +
+#   geom_point(size = 3,
+#              alpha = 0.6) +
+#   geom_smooth(method = lm) +
+#   facet_wrap (~ scale) +
+#   theme_few() +
+#   guides(col = guide_legend(ncol = 1))
+# SrugAlllm
 
 ```
 
+
+
+```{r morewrangling}
+coverbio_wide_s[is.na(coverbio_wide_s)] <- 0
+coverbio_wide_s <- column_to_rownames(coverbio_wide_s, var = "ftu")
+coverbio_m <- as.matrix(coverbio_wide_s)
+```
+
+```{r heatmap_transects, include=FALSE, fig.width = 12, fig.height = 12}
+# coverbio_m_scale = scale(coverbio_m)
+pheatmap(coverbio_m)
+```
+```{r tilemapPREP}
+
+coverbio_site <- aggregate(cover ~ ftu + site, coverbio_long_s, mean)
+
+coverbio_site_class <- coverbio_site %>%
+  # convert site to factor and order by bay perimeter
+  mutate(site = factor(site)) %>%
+  mutate(
+    site = fct_relevel(
+      site,
+      "SFMS",
+      "HBR",
+      "DPR",
+      "BPB",
+      "RTCC",
+      "RTCS",
+      "RTCR",
+      "PCW",
+      "PCC",
+      "PCB",
+      "PBS",
+      "PCR",
+      "SQB",
+      "SWR",
+      "RRR",
+      "POC",
+      "POB",
+      "PMB",
+      "KBB",
+      "MKR"
+    )
+  ) %>%
+  mutate(site=
+    fct_recode(
+      site,
+      "SF Marina" = "SFMS",
+      "Horseshoe Bay" = "HBR",
+      "Dunphy Park" = "DPR",
+      "Brickyard Park" = "BPB",
+      "RTC Beach" = "RTCC",
+      "RTC Theater" = "RTCS",
+      "RTC North Dock" = "RTCR",
+      "Pt. Chauncey" = "PCW",
+      "Pt. Chauncey Beach S" = "PCC",
+      "Pt. Chauncey Beach N" = "PCB",
+      "Paradise Beach Park" = "PBS",
+      "Paradise Cay" = "PCR",
+      "San Quentin Beach" = "SQB",
+      "Starkweather Park" = "SWR",
+      "Pt. San Pablo" = "RRR",
+      "Pt. Orient N" = "POC",
+      "Pt. Orient S" = "POB",
+      "Pt. Molate" = "PMB",
+      "Keller Beach" = "KBB",
+      "Miller Knox" = "MKR"
+    )
+  ) %>%
+# create a new variable from cover
+  mutate(coverclass = cut(
+    cover,
+    breaks = c(-1, 0, 1, 2, 4, 8, 16, 32, 64, 100, max(cover, na.rm = T)),
+    labels = c(
+      "0",
+      "0-1",
+      "1-2",
+      "2-4",
+      "4-8",
+      "8-16",
+      "16-32",
+      "32-64",
+      "64-100",
+      ">100"
+    )
+  )) %>%
+  # change level order
+  mutate(coverclass = factor(as.character(coverclass), levels = rev(levels(coverclass)))) %>%
+
+  # convert ftu to factor and order by functional groups
+  mutate(ftu = factor(ftu)) %>%
+  mutate(
+    ftu = fct_relevel(
+      ftu,
+      "ulsp",
+      "ulen",
+      "brsp",
+      "grfi",
+      "diat",
+      "fudi",
+      "samu",
+      "mapa",
+      "recr",
+      "pysp",
+      "caok",
+      "posp",
+      "chex",
+      "maja",
+      "capi",
+      "hasc",
+      "masp",
+      "cocr",
+      "crwo",
+      "crypt",
+      "grsp",
+      "pica",
+      "pola",
+      "prsp",
+      "refi",
+      "lich",
+      "basp",
+      "chsp",
+      "oslu",
+      "mysp",
+      "clam",
+      "dili",
+      "schi",
+      "enbr"
+    )
+  ) %>% 
+  mutate(
+    ftu =
+      fct_recode(
+        ftu,
+        "Ulva spp." = "ulsp",
+        "Ulva enteromorpha" = "ulen",
+        "Bryopsis sp." = "brsp",
+        "Green filamentous sp." = "grfi",
+        "diatoms" = "diat",
+        "Fucus distichus" = "fudi",
+        "Sargassum muticum" = "samu",
+        "Mastocarpus papillatus" = "mapa",
+        "Red crust" = "recr",
+        "Pyropia sp." = "pysp",
+        "Caulacanthus okamurae" = "caok",
+        "Polysiphonia sp." = "posp",
+        "Chondracanthus exasperatus" = "chex",
+        "Mastocarpus jardinii" = "maja",
+        "Callithamnion pikeanum" = "capi",
+        "Halymenia schizymenioides" = "hasc",
+        "Mazzaella spp." = "masp",
+        "Coralline crust" = "cocr",
+        "Cryptosiphonia woodii" = "crwo",
+        "SF marina species" = "crypt",
+        "Grateloupia sp." = "grsp",
+        "Pikea californica" = "pica",
+        "Polyneura latissma" = "pola",
+        "Prionitis sp." = "prsp",
+        "Red filamentous algae" = "refi",
+        "Lichen" = "lich",
+        "Balanoid spp." = "basp",
+        "Chthalamus spp." = "chsp",
+        "Ostrea lurida" = "oslu",
+        "Mytilus spp." = "mysp",
+        "unidentified clam" = "clam",
+        "Diadumene lineata" = "dili",
+        "Schizoporella sp." = "schi",
+        "Encrusting Bryozoan spp." = "enbr"
+      )
+  ) %>%
+  # change level order
+  mutate(ftu = factor(as.character(ftu), levels = rev(levels(ftu)))) 
+
+
+```
+
+## Cover of sessile species
+```{r tilemap, include=TRUE, fig.width = 10, fig.height = 10, fig.cap = "Cover of sessile taxa by site."}
+library(RColorBrewer)
+p2 <- ggplot(coverbio_site_class, aes(x = site, y = ftu, fill = coverclass)) +
+  geom_tile()+
+  geom_tile(colour="grey90",size=0.2)+
+  scale_fill_manual(values=rev(brewer.pal(8,"GnBu")),na.value="grey90")+
+  theme(axis.text.x = element_text(angle = 45, hjust=1))+
+  labs(title="Cover of sessile taxonomic groups", x="Sites", y= "Taxon group") 
+p2
+
+```
 
 
 ```{r, include=FALSE}

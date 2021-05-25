@@ -42,46 +42,15 @@
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -98,175 +67,80 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 
 \title{SFBay Rocky Shore Survey analyses}
 \author{Karina J. Nielsen}
-\date{Last compiled on 28 December 2020}
+\date{Last compiled on 01 January 2021}
 
 \begin{document}
 \maketitle
 
-\hypertarget{anchor}{%
-\section{Plots of quadrat data from each transect}\label{anchor}}
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{dataviz-of-sfbay-quadrat-surveys}{%
+\section{Dataviz of sfbay quadrat surveys}\label{dataviz-of-sfbay-quadrat-surveys}}
 
 \hypertarget{rockweed-fucus-distichus}{%
-\subsection{\texorpdfstring{Rockweed, \emph{Fucus
-distichus}}{Rockweed, Fucus distichus}}\label{rockweed-fucus-distichus}}
+\subsection{\texorpdfstring{Rockweed, \emph{Fucus distichus}}{Rockweed, Fucus distichus}}\label{rockweed-fucus-distichus}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Mid + low zone Fucus cover x site, ordered around SFBay perimeter}
-\NormalTok{fucus_p1 <-}\StringTok{ }\NormalTok{rqs3 }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{drop_na}\NormalTok{(fucus_pc) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{filter}\NormalTok{(zone }\OperatorTok{!=}\StringTok{ "High"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{ (}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ bay_perim_order, }\DataTypeTok{y =}\NormalTok{ fucus_pc, }\DataTypeTok{fill =}\NormalTok{ zone)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{(}\DataTypeTok{outlier.size =}\DecValTok{0}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\CommentTok{#geom_jitter(width =0.2, height = 0.1, color="blue", size=2, alpha=0.9) +}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{21}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_jitterdodge}\NormalTok{())}\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme_few}\NormalTok{()}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_fill_few}\NormalTok{(}\DataTypeTok{palette =} \StringTok{"Light"}\NormalTok{)}\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{breaks=} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{14}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{16}\NormalTok{,}\DecValTok{17}\NormalTok{,}\DecValTok{18}\NormalTok{,}\DecValTok{19}\NormalTok{,}\DecValTok{20}\NormalTok{), }
-        \DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"SF Marina"}\NormalTok{,}\StringTok{"Horseshoe Bay"}\NormalTok{,}\StringTok{"Dunphy Park"}\NormalTok{, }\StringTok{"Brickyard Park"}\NormalTok{, }\StringTok{"RTC Beach"}\NormalTok{, }\StringTok{"RTC Theater"}\NormalTok{, }\StringTok{"RTC North Dock"}\NormalTok{, }\StringTok{"Pt. Chauncey"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach S"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach N"}\NormalTok{, }\StringTok{"Paradise Beach Park"}\NormalTok{, }\StringTok{"Paradise Cay"}\NormalTok{, }\StringTok{"San Quentin Beach"}\NormalTok{, }\StringTok{"Starkweather Park"}\NormalTok{, }\StringTok{"Pt. San Pablo"}\NormalTok{, }\StringTok{"Pt. Orient N"}\NormalTok{, }\StringTok{"Pt. Orient S"}\NormalTok{, }\StringTok{"Pt. Molate"}\NormalTok{, }\StringTok{"Keller Beach"}\NormalTok{, }\StringTok{"Miller Knox"}\NormalTok{))}
-  
-\NormalTok{fucus_p1}
-\end{Highlighting}
-\end{Shaded}
+\begin{figure}
 
-\includegraphics{sfb_quadrats_files/figure-latex/unnamed-chunk-8-1.pdf}
+\includegraphics{sfb_quadrats_files/figure-latex/rockweed-by-zone-site-fig-1} \hfill{}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#Mid zone Fucus cover x site, ordered around SFBay perimeter, highlighting RTC sites}
-\NormalTok{fucus_p2 <-}\StringTok{ }\NormalTok{rqs3 }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{drop_na}\NormalTok{(fucus_pc) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{filter}\NormalTok{(zone }\OperatorTok{==}\StringTok{ "Mid"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{ (}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ bay_perim_order, }\DataTypeTok{y =}\NormalTok{ fucus_pc, }\DataTypeTok{fill =}\NormalTok{ RTC_sites)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{(}\DataTypeTok{outlier.shape =} \OtherTok{NA}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{21}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_jitterdodge}\NormalTok{(}\DataTypeTok{jitter.height =} \DecValTok{2}\NormalTok{, }\DataTypeTok{jitter.width =} \DecValTok{1}\NormalTok{, }\DataTypeTok{seed =} \DecValTok{7}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_fill_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\StringTok{"darkolivegreen4"}\NormalTok{, }\StringTok{"light grey"}\NormalTok{)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme_few}\NormalTok{()}\OperatorTok{+}
-\StringTok{  }\CommentTok{#scale_fill_few(palette = "Light")+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{breaks=} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{14}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{16}\NormalTok{,}\DecValTok{17}\NormalTok{,}\DecValTok{18}\NormalTok{,}\DecValTok{19}\NormalTok{,}\DecValTok{20}\NormalTok{), }
-        \DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"SF Marina"}\NormalTok{,}\StringTok{"Horseshoe Bay"}\NormalTok{,}\StringTok{"Dunphy Park"}\NormalTok{, }\StringTok{"Brickyard Park"}\NormalTok{, }\StringTok{"RTC Beach"}\NormalTok{, }\StringTok{"RTC Theater"}\NormalTok{, }\StringTok{"RTC North Dock"}\NormalTok{, }\StringTok{"Pt. Chauncey"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach S"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach N"}\NormalTok{, }\StringTok{"Paradise Beach Park"}\NormalTok{, }\StringTok{"Paradise Cay"}\NormalTok{, }\StringTok{"San Quentin Beach"}\NormalTok{, }\StringTok{"Starkweather Park"}\NormalTok{, }\StringTok{"Pt. San Pablo"}\NormalTok{, }\StringTok{"Pt. Orient N"}\NormalTok{, }\StringTok{"Pt. Orient S"}\NormalTok{, }\StringTok{"Pt. Molate"}\NormalTok{, }\StringTok{"Keller Beach"}\NormalTok{, }\StringTok{"Miller Knox"}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \OtherTok{NULL}\NormalTok{,  }\DataTypeTok{y =} \KeywordTok{expression}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\KeywordTok{italic}\NormalTok{(}\StringTok{" Fucus distichus"}\NormalTok{), }\StringTok{" cover (%)"}\NormalTok{)))}
-  
-\NormalTok{fucus_p2}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{sfb_quadrats_files/figure-latex/unnamed-chunk-9-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#Low zone Fucus cover x site, ordered around SFBay perimeter, highlighting RTC sites}
-\NormalTok{fucus_p3 <-}\StringTok{ }\NormalTok{rqs3 }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{drop_na}\NormalTok{(fucus_pc) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{filter}\NormalTok{(zone }\OperatorTok{==}\StringTok{ "Low"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{ (}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ bay_perim_order, }\DataTypeTok{y =}\NormalTok{ fucus_pc, }\DataTypeTok{fill =}\NormalTok{ RTC_sites)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{(}\DataTypeTok{outlier.shape =} \OtherTok{NA}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{21}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_jitterdodge}\NormalTok{(}\DataTypeTok{jitter.height =} \DecValTok{2}\NormalTok{, }\DataTypeTok{jitter.width =} \DecValTok{1}\NormalTok{, }\DataTypeTok{seed =} \DecValTok{7}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_fill_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\StringTok{"darkolivegreen4"}\NormalTok{, }\StringTok{"light grey"}\NormalTok{)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme_few}\NormalTok{()}\OperatorTok{+}
-\StringTok{  }\CommentTok{#scale_fill_few(palette = "Light")+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{breaks=} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{14}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{16}\NormalTok{,}\DecValTok{17}\NormalTok{,}\DecValTok{18}\NormalTok{,}\DecValTok{19}\NormalTok{,}\DecValTok{20}\NormalTok{), }
-        \DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"SF Marina"}\NormalTok{,}\StringTok{"Horseshoe Bay"}\NormalTok{,}\StringTok{"Dunphy Park"}\NormalTok{, }\StringTok{"Brickyard Park"}\NormalTok{, }\StringTok{"RTC Beach"}\NormalTok{, }\StringTok{"RTC Theater"}\NormalTok{, }\StringTok{"RTC North Dock"}\NormalTok{, }\StringTok{"Pt. Chauncey"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach S"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach N"}\NormalTok{, }\StringTok{"Paradise Beach Park"}\NormalTok{, }\StringTok{"Paradise Cay"}\NormalTok{, }\StringTok{"San Quentin Beach"}\NormalTok{, }\StringTok{"Starkweather Park"}\NormalTok{, }\StringTok{"Pt. San Pablo"}\NormalTok{, }\StringTok{"Pt. Orient N"}\NormalTok{, }\StringTok{"Pt. Orient S"}\NormalTok{, }\StringTok{"Pt. Molate"}\NormalTok{, }\StringTok{"Keller Beach"}\NormalTok{, }\StringTok{"Miller Knox"}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \OtherTok{NULL}\NormalTok{,  }\DataTypeTok{y =} \KeywordTok{expression}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\KeywordTok{italic}\NormalTok{(}\StringTok{" Fucus distichus"}\NormalTok{), }\StringTok{" cover (%)"}\NormalTok{)))}
-  
-\NormalTok{fucus_p3 }
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{sfb_quadrats_files/figure-latex/unnamed-chunk-10-1.pdf}
+\caption{ Rockweed (Fucus distichus) cover in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.}\label{fig:rockweed-by-zone-site-fig}
+\end{figure}
 
 \hypertarget{native-oyster-ostrea-lurida}{%
-\subsection{\texorpdfstring{Native oyster, \emph{Ostrea
-lurida}}{Native oyster, Ostrea lurida}}\label{native-oyster-ostrea-lurida}}
+\subsection{\texorpdfstring{Native oyster, \emph{Ostrea lurida}}{Native oyster, Ostrea lurida}}\label{native-oyster-ostrea-lurida}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#Mid + Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter}
-\NormalTok{oysters_p1 <-}\StringTok{ }\NormalTok{rqs3 }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{drop_na}\NormalTok{(oyster_n) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{filter}\NormalTok{(zone }\OperatorTok{!=}\StringTok{ "High"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{ (}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ bay_perim_order, }\DataTypeTok{y =}\NormalTok{ (oyster_n }\OperatorTok{*}\StringTok{ }\DecValTok{4}\NormalTok{), }\DataTypeTok{fill =}\NormalTok{ zone)) }\OperatorTok{+}\StringTok{ }\CommentTok{# density per Q * 4 = no/m2}
-\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{(}\DataTypeTok{outlier.size =}\DecValTok{0}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{21}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_jitterdodge}\NormalTok{())}\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme_few}\NormalTok{()}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_fill_few}\NormalTok{(}\DataTypeTok{palette =} \StringTok{"Light"}\NormalTok{)}\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{breaks=} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{14}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{16}\NormalTok{,}\DecValTok{17}\NormalTok{,}\DecValTok{18}\NormalTok{,}\DecValTok{19}\NormalTok{,}\DecValTok{20}\NormalTok{), }
-        \DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"SF Marina"}\NormalTok{,}\StringTok{"Horseshoe Bay"}\NormalTok{,}\StringTok{"Dunphy Park"}\NormalTok{, }\StringTok{"Brickyard Park"}\NormalTok{, }\StringTok{"RTC Beach"}\NormalTok{, }\StringTok{"RTC Theater"}\NormalTok{, }\StringTok{"RTC North Dock"}\NormalTok{, }\StringTok{"Pt. Chauncey"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach S"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach N"}\NormalTok{, }\StringTok{"Paradise Beach Park"}\NormalTok{, }\StringTok{"Paradise Cay"}\NormalTok{, }\StringTok{"San Quentin Beach"}\NormalTok{, }\StringTok{"Starkweather Park"}\NormalTok{, }\StringTok{"Pt. San Pablo"}\NormalTok{, }\StringTok{"Pt. Orient N"}\NormalTok{, }\StringTok{"Pt. Orient S"}\NormalTok{, }\StringTok{"Pt. Molate"}\NormalTok{, }\StringTok{"Keller Beach"}\NormalTok{, }\StringTok{"Miller Knox"}\NormalTok{))}
-  
-\NormalTok{oysters_p1}
-\end{Highlighting}
-\end{Shaded}
+\begin{figure}
 
-\includegraphics{sfb_quadrats_files/figure-latex/unnamed-chunk-11-1.pdf}
+\includegraphics{sfb_quadrats_files/figure-latex/oysters-by-zone-site-fig-1} \hfill{}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#Mid zone native oyster density (no. per m2) x site, ordered around SFBay perimeter, highlighting RTC sites}
-\NormalTok{oysters_p2 <-}\StringTok{ }\NormalTok{rqs3 }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{drop_na}\NormalTok{(oyster_n) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{filter}\NormalTok{(zone }\OperatorTok{==}\StringTok{ "Mid"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{ (}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ bay_perim_order, }\DataTypeTok{y =}\NormalTok{ (oyster_n }\OperatorTok{*}\DecValTok{4}\NormalTok{), }\DataTypeTok{fill =}\NormalTok{ RTC_sites)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{(}\DataTypeTok{outlier.shape =} \OtherTok{NA}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{21}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_jitterdodge}\NormalTok{(}\DataTypeTok{jitter.height =} \DecValTok{2}\NormalTok{, }\DataTypeTok{jitter.width =} \DecValTok{1}\NormalTok{, }\DataTypeTok{seed =} \DecValTok{7}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_fill_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\StringTok{"coral"}\NormalTok{, }\StringTok{"light grey"}\NormalTok{)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme_few}\NormalTok{()}\OperatorTok{+}
-\StringTok{  }\CommentTok{#scale_fill_few(palette = "Light")+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{breaks=} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{14}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{16}\NormalTok{,}\DecValTok{17}\NormalTok{,}\DecValTok{18}\NormalTok{,}\DecValTok{19}\NormalTok{,}\DecValTok{20}\NormalTok{), }
-        \DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"SF Marina"}\NormalTok{,}\StringTok{"Horseshoe Bay"}\NormalTok{,}\StringTok{"Dunphy Park"}\NormalTok{, }\StringTok{"Brickyard Park"}\NormalTok{, }\StringTok{"RTC Beach"}\NormalTok{, }\StringTok{"RTC Theater"}\NormalTok{, }\StringTok{"RTC North Dock"}\NormalTok{, }\StringTok{"Pt. Chauncey"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach S"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach N"}\NormalTok{, }\StringTok{"Paradise Beach Park"}\NormalTok{, }\StringTok{"Paradise Cay"}\NormalTok{, }\StringTok{"San Quentin Beach"}\NormalTok{, }\StringTok{"Starkweather Park"}\NormalTok{, }\StringTok{"Pt. San Pablo"}\NormalTok{, }\StringTok{"Pt. Orient N"}\NormalTok{, }\StringTok{"Pt. Orient S"}\NormalTok{, }\StringTok{"Pt. Molate"}\NormalTok{, }\StringTok{"Keller Beach"}\NormalTok{, }\StringTok{"Miller Knox"}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \OtherTok{NULL}\NormalTok{,  }\DataTypeTok{y =} \KeywordTok{expression}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\KeywordTok{italic}\NormalTok{(}\StringTok{"Ostrea lurida "}\NormalTok{), }\StringTok{"abundance "}\NormalTok{, }\StringTok{" (no. "}\NormalTok{,  m}\OperatorTok{^-}\DecValTok{2}\NormalTok{,}\StringTok{")"}\NormalTok{)))}
+\caption{ Native oyster (Ostrea lurida) abundance in the mid and low intertidal at survey sites. Colored fill indicates reference sites for RTC restoration planning.}\label{fig:oysters-by-zone-site-fig}
+\end{figure}
 
-\NormalTok{oysters_p2 }
-\end{Highlighting}
-\end{Shaded}
+\hypertarget{rockweed-by-site-type-and-zone}{%
+\subsection{Rockweed by site type and zone}\label{rockweed-by-site-type-and-zone}}
 
-\includegraphics{sfb_quadrats_files/figure-latex/unnamed-chunk-12-1.pdf}
+\begin{figure}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#fucus_p1/oyster_p1 #uses patchwork package to arrange plots - very cool}
-\end{Highlighting}
-\end{Shaded}
+\includegraphics{sfb_quadrats_files/figure-latex/fucus-sitetype-zone-fig-1} \hfill{}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#Low zone native oyster density (no. per m2) x site, ordered around SFBay perimeter, highlighting RTC sites}
-\NormalTok{oysters_p3 <-}\StringTok{ }\NormalTok{rqs3 }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{drop_na}\NormalTok{(oyster_n) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{filter}\NormalTok{(zone }\OperatorTok{==}\StringTok{ "Low"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{ (}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ bay_perim_order, }\DataTypeTok{y =}\NormalTok{ (oyster_n }\OperatorTok{*}\DecValTok{4}\NormalTok{), }\DataTypeTok{fill =}\NormalTok{ RTC_sites)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{(}\DataTypeTok{outlier.shape =} \OtherTok{NA}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{pch=}\DecValTok{21}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_jitterdodge}\NormalTok{(}\DataTypeTok{jitter.height =} \DecValTok{2}\NormalTok{, }\DataTypeTok{jitter.width =} \DecValTok{1}\NormalTok{, }\DataTypeTok{seed =} \DecValTok{7}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_fill_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\StringTok{"coral"}\NormalTok{, }\StringTok{"light grey"}\NormalTok{)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme_few}\NormalTok{()}\OperatorTok{+}
-\StringTok{  }\CommentTok{#scale_fill_few(palette = "Light")+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x=}\KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{breaks=} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DecValTok{12}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{14}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{16}\NormalTok{,}\DecValTok{17}\NormalTok{,}\DecValTok{18}\NormalTok{,}\DecValTok{19}\NormalTok{,}\DecValTok{20}\NormalTok{), }
-        \DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"SF Marina"}\NormalTok{,}\StringTok{"Horseshoe Bay"}\NormalTok{,}\StringTok{"Dunphy Park"}\NormalTok{, }\StringTok{"Brickyard Park"}\NormalTok{, }\StringTok{"RTC Beach"}\NormalTok{, }\StringTok{"RTC Theater"}\NormalTok{, }\StringTok{"RTC North Dock"}\NormalTok{, }\StringTok{"Pt. Chauncey"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach S"}\NormalTok{, }\StringTok{"Pt. Chauncey Beach N"}\NormalTok{, }\StringTok{"Paradise Beach Park"}\NormalTok{, }\StringTok{"Paradise Cay"}\NormalTok{, }\StringTok{"San Quentin Beach"}\NormalTok{, }\StringTok{"Starkweather Park"}\NormalTok{, }\StringTok{"Pt. San Pablo"}\NormalTok{, }\StringTok{"Pt. Orient N"}\NormalTok{, }\StringTok{"Pt. Orient S"}\NormalTok{, }\StringTok{"Pt. Molate"}\NormalTok{, }\StringTok{"Keller Beach"}\NormalTok{, }\StringTok{"Miller Knox"}\NormalTok{))}\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \OtherTok{NULL}\NormalTok{,  }\DataTypeTok{y =} \KeywordTok{expression}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\KeywordTok{italic}\NormalTok{(}\StringTok{"Ostrea lurida "}\NormalTok{), }\StringTok{"abundance "}\NormalTok{, }\StringTok{" (no. "}\NormalTok{,  m}\OperatorTok{^-}\DecValTok{2}\NormalTok{,}\StringTok{")"}\NormalTok{)))}
+\caption{ Cover of rockweed (Fucus distichus) in the mid and low intertidal by site type.}\label{fig:fucus-sitetype-zone-fig}
+\end{figure}
 
-\NormalTok{oysters_p3}
-\end{Highlighting}
-\end{Shaded}
+\hypertarget{oysters-by-site-type-and-zone}{%
+\subsection{Oysters by site type and zone}\label{oysters-by-site-type-and-zone}}
 
-\includegraphics{sfb_quadrats_files/figure-latex/unnamed-chunk-13-1.pdf}
+\begin{figure}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{######## Stopped here -> next step combine into one figure each for Fucus and Ostrea and create legend for RTC sites.}
-\end{Highlighting}
-\end{Shaded}
+\includegraphics{sfb_quadrats_files/figure-latex/oysters-sitetype-zone-fig-1} \hfill{}
+
+\caption{ Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type.}\label{fig:oysters-sitetype-zone-fig}
+\end{figure}
+
+\hypertarget{oyster-scars-vs.-oysters-colored-by-site}{%
+\subsection{Oyster scars vs.~oysters colored by site}\label{oyster-scars-vs.-oysters-colored-by-site}}
+
+\begin{figure}
+
+\includegraphics{sfb_quadrats_files/figure-latex/oyster-scar-plot-1} \hfill{}
+
+\caption{ Abundance of native oysters (Ostrea lurida) in the mid and low intertidal by site type.}\label{fig:oyster-scar-plot}
+\end{figure}
+
+\hypertarget{size-structure-of-oysters-mussels-and-limpets-by-site}{%
+\subsection{Size structure of oysters, mussels, and limpets by site}\label{size-structure-of-oysters-mussels-and-limpets-by-site}}
+
+\begin{figure}
+
+\includegraphics{sfb_quadrats_files/figure-latex/size-structure-plot-1} \hfill{}
+
+\caption{ Size structure of oysters, bay mussels and limpets in mid and low intertidal at study sites.}\label{fig:size-structure-plot}
+\end{figure}
 
 \end{document}
